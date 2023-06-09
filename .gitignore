@@ -1,0 +1,33 @@
+keys.json
+
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
+
+frontend/coverage
+
+frontend/.next/
+frontend/out/
+
+frontend/.DS_Store
+frontend/*.pem
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+frontend/# local env files
+frontend/.env*.local
+
+frontend/.vercel
+
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+.*
+!/.gitignore
+
+mas/packages/valory
+mas/packages/open_aea
+mas/packages/fetchai
+**/__pycache__/
