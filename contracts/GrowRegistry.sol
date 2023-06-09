@@ -39,6 +39,7 @@ contract GrowRegistry is GenericRegistry {
 
     event CreateGrow(address indexed growOwner, uint256 indexed growId, bytes32 indexed growHash);
     event UpdateGrowHash(address indexed growOwner, uint256 indexed growId, bytes32 indexed growHash);
+    event Growing(address indexed multisig, uint256 indexed growId);
     event HarvestProposed(address indexed growOwner, uint256 indexed growId);
     event ReadyToHarvest(address indexed multisig, uint256 indexed growId);
     event Harvested(address indexed growOwner, uint256 indexed growId);
@@ -163,10 +164,11 @@ contract GrowRegistry is GenericRegistry {
         emit HarvestProposed(msg.sender, growId);
     }
 
-    /// @dev Sets ready to harvest grow state.
-    /// @notice This function is accessed by the multisig multisig only.
+    /// @dev Sets ready to harvest or back to the growing grow state.
+    /// @notice This function is accessed by the multisig only.
     /// @param growId The id of a grow.
-    function setReadyToHarvest(uint256 growId) external {
+    /// @param isReady Flag for the harvest to be ready.
+    function setGrowState(uint256 growId, bool isReady) external {
         // Checking the multisig address
         if (multisig != msg.sender) {
             revert MultisigOnly(msg.sender, multisig, growId);
@@ -177,9 +179,15 @@ contract GrowRegistry is GenericRegistry {
         if (growState == GrowState.HarvestProposed) {
             revert WrongGrowStateRequested(growId);
         }
+
         // Change the grow state
-        mapGrowIdStates[growId] = GrowState.ReadyToHarvest;
-        emit ReadyToHarvest(msg.sender, growId);
+        if (isReady) {
+            mapGrowIdStates[growId] = GrowState.ReadyToHarvest;
+            emit ReadyToHarvest(msg.sender, growId);
+        } else {
+            mapGrowIdStates[growId] = GrowState.Growing;
+            emit Growing(msg.sender, growId);
+        }
     }
 
     /// @dev Harvests the grow.
