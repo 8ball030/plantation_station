@@ -6,7 +6,7 @@ alphabet_in:
 - PROPOSALS
 - NO_PROPOSALS
 default_start_state: RegistrationRound
-final_states: []
+final_states: [TransactionSubmissionRound]
 label: PlantationStationAbciApp
 start_states:
 - RegistrationRound
