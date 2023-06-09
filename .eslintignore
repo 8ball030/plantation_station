@@ -1,0 +1,5 @@
+audits/*
+coverage*
+frontend/*
+lib/*
+mas/*

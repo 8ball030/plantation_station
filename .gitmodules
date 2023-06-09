@@ -1,0 +1,4 @@
+
+[submodule "lib/autonolas-registries"]
+	path = lib/autonolas-registries
+	url = https://github.com/valory-xyz/autonolas-registries.git
