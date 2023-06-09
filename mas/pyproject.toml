@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mas"
+version = "0.1.0"
+description = ""
+authors = ["8baller <8ball030@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+open-autonomy = "^0.10.5.post2"
+
+
+[tool.poetry.group.dev.dependencies]
+autonomy-dev = {extras = ["all"], version = "^0.1.4"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
