@@ -79,24 +79,3 @@ class ReadSensorDataPayload(BaseTxPayload):
 
     # TODO: define your attributes
 
-
-@dataclass(frozen=True)
-class RegistrationPayload(BaseTxPayload):
-    """Represent a transaction payload for the RegistrationRound."""
-
-    # TODO: define your attributes
-
-
-@dataclass(frozen=True)
-class ResetAndPausePayload(BaseTxPayload):
-    """Represent a transaction payload for the ResetAndPauseRound."""
-
-    # TODO: define your attributes
-
-
-@dataclass(frozen=True)
-class TransactionSubmissionPayload(BaseTxPayload):
-    """Represent a transaction payload for the TransactionSubmissionRound."""
-
-    # TODO: define your attributes
-

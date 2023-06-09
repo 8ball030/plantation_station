@@ -31,7 +31,7 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
     make_degenerate_behaviour,
 )
-from packages.default_author.skills.plantation_station.behaviours import (
+from packages.zarathustra.skills.plantation_station.behaviours import (
     PlantationStationBaseBehaviour,
     PlantationStationRoundBehaviour,
     AttestProposalBehaviour,
@@ -42,11 +42,8 @@ from packages.default_author.skills.plantation_station.behaviours import (
     PrepareAttestationTransactionBehaviour,
     PrepareObservationTransactionBehaviour,
     ReadSensorDataBehaviour,
-    RegistrationBehaviour,
-    ResetAndPauseBehaviour,
-    TransactionSubmissionBehaviour,
 )
-from packages.default_author.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station.rounds import (
     SynchronizedData,
     DegenerateRound,
     Event,
@@ -54,13 +51,12 @@ from packages.default_author.skills.plantation_station.rounds import (
     AttestProposalRound,
     CheckHarvestProposalRound,
     ControlAdjustmentRound,
+    FailedRound,
     FederatedLearningRound,
     ObservationCollectionRound,
     PrepareAttestationTransactionRound,
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
-    RegistrationRound,
-    ResetAndPauseRound,
     TransactionSubmissionRound,
 )
 
@@ -248,60 +244,6 @@ class TestReadSensorDataBehaviour(BasePlantationStationTest):
 
     # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = ReadSensorDataBehaviour
-    next_behaviour_class: Type[BaseBehaviour] = ...
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: BehaviourTestCase) -> None:
-        """Run tests."""
-
-        self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
-        # self.mock_ ...
-        self.complete(test_case.event)
-
-
-class TestRegistrationBehaviour(BasePlantationStationTest):
-    """Tests RegistrationBehaviour"""
-
-    # TODO: set next_behaviour_class
-    behaviour_class: Type[BaseBehaviour] = RegistrationBehaviour
-    next_behaviour_class: Type[BaseBehaviour] = ...
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: BehaviourTestCase) -> None:
-        """Run tests."""
-
-        self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
-        # self.mock_ ...
-        self.complete(test_case.event)
-
-
-class TestResetAndPauseBehaviour(BasePlantationStationTest):
-    """Tests ResetAndPauseBehaviour"""
-
-    # TODO: set next_behaviour_class
-    behaviour_class: Type[BaseBehaviour] = ResetAndPauseBehaviour
-    next_behaviour_class: Type[BaseBehaviour] = ...
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: BehaviourTestCase) -> None:
-        """Run tests."""
-
-        self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
-        # self.mock_ ...
-        self.complete(test_case.event)
-
-
-class TestTransactionSubmissionBehaviour(BasePlantationStationTest):
-    """Tests TransactionSubmissionBehaviour"""
-
-    # TODO: set next_behaviour_class
-    behaviour_class: Type[BaseBehaviour] = TransactionSubmissionBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
     # TODO: provide test cases

@@ -19,7 +19,7 @@
 
 """Test the dialogues.py module of the PlantationStation."""
 
-import packages.default_author.skills.plantation_station.dialogues  # noqa
+import packages.zarathustra.skills.plantation_station.dialogues  # noqa
 
 
 def test_import() -> None:

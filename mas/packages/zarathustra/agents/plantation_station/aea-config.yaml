@@ -1,4 +1,4 @@
-agent_name: plantation_station
+agent_name: liquidation_station
 author: zarathustra
 version: 0.1.0
 license: Apache-2.0
@@ -24,9 +24,9 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeibo4bdtcrxi2suyzldwoetjar6pqfzm6vt5xal22ravkkcvdmtksi
 - valory/tendermint:0.1.0:bafybeicusvezoqlmyt6iqomcbwaz3xkhk2qf3d56q5zprmj3xdxfy64k54
 skills:
-- default_author/plantation_station:0.1.0:bafybeidq4ctffzi75lhj2n52jlyww6jeatfyilitlwf3xz7xoeebgh2qra
 - valory/abstract_abci:0.1.0:bafybeicujajnqzbndtndrndj53znohemihludifuyc5dazfbz6fltyj5ci
 - valory/abstract_round_abci:0.1.0:bafybeibdljcw2wchyderkonobpdpyb36yioagqcaoqldydw5bi6vvempma
+- zarathustra/plantation_station:0.1.0:bafybeicjw5kvag7xju4is67r2lhm5z46wjgt5zqiibgh7fdmi7uybrvpoi
 default_ledger: ethereum
 required_ledgers:
 - ethereum

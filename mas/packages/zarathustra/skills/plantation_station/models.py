@@ -27,7 +27,7 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.default_author.skills.plantation_station.rounds import PlantationStationAbciApp
+from packages.zarathustra.skills.plantation_station.rounds import PlantationStationAbciApp
 
 
 class SharedState(BaseSharedState):

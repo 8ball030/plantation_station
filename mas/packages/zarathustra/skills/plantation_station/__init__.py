@@ -22,4 +22,4 @@
 from aea.configurations.base import PublicId
 
 
-PUBLIC_ID = PublicId.from_str("default_author/plantation_station:0.1.0")
+PUBLIC_ID = PublicId.from_str("zarathustra/plantation_station:0.1.0")

@@ -19,7 +19,7 @@
 
 """Test the handlers.py module of the PlantationStation."""
 
-import packages.default_author.skills.plantation_station.handlers  # noqa
+import packages.zarathustra.skills.plantation_station.handlers  # noqa
 
 
 def test_import() -> None:

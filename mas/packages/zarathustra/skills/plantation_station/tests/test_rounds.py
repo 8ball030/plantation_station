@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 
 import pytest
 
-from packages.default_author.skills.plantation_station.payloads import (
+from packages.zarathustra.skills.plantation_station.payloads import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -33,11 +33,8 @@ from packages.default_author.skills.plantation_station.payloads import (
     PrepareAttestationTransactionPayload,
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
-    RegistrationPayload,
-    ResetAndPausePayload,
-    TransactionSubmissionPayload,
 )
-from packages.default_author.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station.rounds import (
     AbstractRound,
     Event,
     SynchronizedData,
@@ -49,9 +46,6 @@ from packages.default_author.skills.plantation_station.rounds import (
     PrepareAttestationTransactionRound,
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
-    RegistrationRound,
-    ResetAndPauseRound,
-    TransactionSubmissionRound,
 )
 from packages.valory.skills.abstract_round_abci.base import (
     BaseTxPayload,
@@ -204,45 +198,6 @@ class TestReadSensorDataRound(BasePlantationStationRoundTest):
     """Tests for ReadSensorDataRound."""
 
     round_class = ReadSensorDataRound
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: RoundTestCase) -> None:
-        """Run tests."""
-
-        self.run_test(test_case)
-
-
-class TestRegistrationRound(BasePlantationStationRoundTest):
-    """Tests for RegistrationRound."""
-
-    round_class = RegistrationRound
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: RoundTestCase) -> None:
-        """Run tests."""
-
-        self.run_test(test_case)
-
-
-class TestResetAndPauseRound(BasePlantationStationRoundTest):
-    """Tests for ResetAndPauseRound."""
-
-    round_class = ResetAndPauseRound
-
-    # TODO: provide test cases
-    @pytest.mark.parametrize("test_case", [])
-    def test_run(self, test_case: RoundTestCase) -> None:
-        """Run tests."""
-
-        self.run_test(test_case)
-
-
-class TestTransactionSubmissionRound(BasePlantationStationRoundTest):
-    """Tests for TransactionSubmissionRound."""
-
-    round_class = TransactionSubmissionRound
 
     # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])

@@ -32,7 +32,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     EventToTimeout,
 )
 
-from packages.default_author.skills.plantation_station.payloads import (
+from packages.zarathustra.skills.plantation_station.payloads import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -41,21 +41,17 @@ from packages.default_author.skills.plantation_station.payloads import (
     PrepareAttestationTransactionPayload,
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
-    RegistrationPayload,
-    ResetAndPausePayload,
-    TransactionSubmissionPayload,
 )
 
 
 class Event(Enum):
     """PlantationStationAbciApp Events"""
 
-    NO_PROPOSALS = "no_proposals"
-    PROPOSALS = "proposals"
     DONE = "done"
-    NO_MAJORITY = "no_majority"
+    PROPOSALS = "proposals"
     ROUND_TIMEOUT = "round_timeout"
-    RESET_TIMEOUT = "reset_timeout"
+    NO_PROPOSALS = "no_proposals"
+    NO_MAJORITY = "no_majority"
 
 
 class SynchronizedData(BaseSynchronizedData):
@@ -274,151 +270,71 @@ class ReadSensorDataRound(AbstractRound):
         raise NotImplementedError
 
 
-class RegistrationRound(AbstractRound):
-    """RegistrationRound"""
-
-    payload_class = RegistrationPayload
-    payload_attribute = ""  # TODO: update
-    synchronized_data_class = SynchronizedData
-
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: RegistrationPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: RegistrationPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
+class FailedRound(DegenerateRound):
+    """FailedRound"""
 
 
-class ResetAndPauseRound(AbstractRound):
-    """ResetAndPauseRound"""
-
-    payload_class = ResetAndPausePayload
-    payload_attribute = ""  # TODO: update
-    synchronized_data_class = SynchronizedData
-
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: ResetAndPausePayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: ResetAndPausePayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
-
-
-class TransactionSubmissionRound(AbstractRound):
+class TransactionSubmissionRound(DegenerateRound):
     """TransactionSubmissionRound"""
-
-    payload_class = TransactionSubmissionPayload
-    payload_attribute = ""  # TODO: update
-    synchronized_data_class = SynchronizedData
-
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        raise NotImplementedError
-
-    def check_payload(self, payload: TransactionSubmissionPayload) -> None:
-        """Check payload."""
-        raise NotImplementedError
-
-    def process_payload(self, payload: TransactionSubmissionPayload) -> None:
-        """Process payload."""
-        raise NotImplementedError
 
 
 class PlantationStationAbciApp(AbciApp[Event]):
     """PlantationStationAbciApp"""
 
-    initial_round_cls: AppState = RegistrationRound
-    initial_states: Set[AppState] = {RegistrationRound}
+    initial_round_cls: AppState = ObservationCollectionRound
+    initial_states: Set[AppState] = {ObservationCollectionRound}
     transition_function: AbciAppTransitionFunction = {
-        RegistrationRound: {
-            Event.DONE: ObservationCollectionRound
-        },
         ObservationCollectionRound: {
             Event.DONE: FederatedLearningRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         FederatedLearningRound: {
             Event.DONE: CheckHarvestProposalRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         CheckHarvestProposalRound: {
             Event.NO_PROPOSALS: ReadSensorDataRound,
             Event.PROPOSALS: AttestProposalRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         AttestProposalRound: {
             Event.DONE: PrepareAttestationTransactionRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         PrepareAttestationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         ReadSensorDataRound: {
             Event.DONE: ControlAdjustmentRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         ControlAdjustmentRound: {
             Event.DONE: PrepareObservationTransactionRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
         PrepareObservationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
+            Event.ROUND_TIMEOUT: FailedRound,
+            Event.NO_MAJORITY: FailedRound
         },
-        TransactionSubmissionRound: {
-            Event.DONE: ResetAndPauseRound,
-            Event.ROUND_TIMEOUT: ResetAndPauseRound,
-            Event.NO_MAJORITY: ResetAndPauseRound
-        },
-        ResetAndPauseRound: {
-            Event.DONE: ObservationCollectionRound,
-            Event.NO_MAJORITY: ResetAndPauseRound,
-            Event.RESET_TIMEOUT: ResetAndPauseRound
-        }
+        TransactionSubmissionRound: {},
+        FailedRound: {}
     }
-    final_states: Set[AppState] = set()
+    final_states: Set[AppState] = {TransactionSubmissionRound, FailedRound}
     event_to_timeout: EventToTimeout = {}
     cross_period_persisted_keys: Set[str] = []
     db_pre_conditions: Dict[AppState, Set[str]] = {
-        RegistrationRound: [],
+        ObservationCollectionRound: [],
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
-
+        TransactionSubmissionRound: [],
+    	FailedRound: [],
     }

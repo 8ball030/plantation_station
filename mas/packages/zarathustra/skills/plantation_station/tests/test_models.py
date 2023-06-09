@@ -20,7 +20,7 @@
 """Test the models.py module of the PlantationStation."""
 
 from packages.valory.skills.abstract_round_abci.test_tools.base import DummyContext
-from packages.default_author.skills.plantation_station.models import SharedState
+from packages.zarathustra.skills.plantation_station.models import SharedState
 
 
 class TestSharedState:

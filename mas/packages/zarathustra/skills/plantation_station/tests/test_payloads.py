@@ -24,7 +24,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from packages.default_author.skills.plantation_station.payloads import (
+from packages.zarathustra.skills.plantation_station.payloads import (
     BaseTxPayload,
     AttestProposalPayload,
     CheckHarvestProposalPayload,
@@ -34,9 +34,6 @@ from packages.default_author.skills.plantation_station.payloads import (
     PrepareAttestationTransactionPayload,
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
-    RegistrationPayload,
-    ResetAndPausePayload,
-    TransactionSubmissionPayload,
 )
 
 

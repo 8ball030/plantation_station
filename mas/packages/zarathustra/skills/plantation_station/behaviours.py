@@ -28,8 +28,8 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
 )
 
-from packages.default_author.skills.plantation_station.models import Params
-from packages.default_author.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station.models import Params
+from packages.zarathustra.skills.plantation_station.rounds import (
     SynchronizedData,
     PlantationStationAbciApp,
     AttestProposalRound,
@@ -40,11 +40,8 @@ from packages.default_author.skills.plantation_station.rounds import (
     PrepareAttestationTransactionRound,
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
-    RegistrationRound,
-    ResetAndPauseRound,
-    TransactionSubmissionRound,
 )
-from packages.default_author.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station.rounds import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -53,9 +50,6 @@ from packages.default_author.skills.plantation_station.rounds import (
     PrepareAttestationTransactionPayload,
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
-    RegistrationPayload,
-    ResetAndPausePayload,
-    TransactionSubmissionPayload,
 )
 
 
@@ -233,70 +227,10 @@ class ReadSensorDataBehaviour(PlantationStationBaseBehaviour):
         self.set_done()
 
 
-class RegistrationBehaviour(PlantationStationBaseBehaviour):
-    """RegistrationBehaviour"""
-
-    matching_round: Type[AbstractRound] = RegistrationRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = RegistrationPayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
-
-
-class ResetAndPauseBehaviour(PlantationStationBaseBehaviour):
-    """ResetAndPauseBehaviour"""
-
-    matching_round: Type[AbstractRound] = ResetAndPauseRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = ResetAndPausePayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
-
-
-class TransactionSubmissionBehaviour(PlantationStationBaseBehaviour):
-    """TransactionSubmissionBehaviour"""
-
-    matching_round: Type[AbstractRound] = TransactionSubmissionRound
-
-    # TODO: implement logic required to set payload content for synchronization
-    def async_act(self) -> Generator:
-        """Do the act, supporting asynchronous execution."""
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            payload = TransactionSubmissionPayload(sender=sender, content=...)
-
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
-            yield from self.send_a2a_transaction(payload)
-            yield from self.wait_until_round_end()
-
-        self.set_done()
-
-
 class PlantationStationRoundBehaviour(AbstractRoundBehaviour):
     """PlantationStationRoundBehaviour"""
 
-    initial_behaviour_cls = RegistrationBehaviour
+    initial_behaviour_cls = ObservationCollectionBehaviour
     abci_app_cls = PlantationStationAbciApp  # type: ignore
     behaviours: Set[Type[BaseBehaviour]] = [
         AttestProposalBehaviour,
@@ -306,8 +240,5 @@ class PlantationStationRoundBehaviour(AbstractRoundBehaviour):
         ObservationCollectionBehaviour,
         PrepareAttestationTransactionBehaviour,
         PrepareObservationTransactionBehaviour,
-        ReadSensorDataBehaviour,
-        RegistrationBehaviour,
-        ResetAndPauseBehaviour,
-        TransactionSubmissionBehaviour
+        ReadSensorDataBehaviour
     ]
