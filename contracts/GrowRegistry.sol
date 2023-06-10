@@ -10,6 +10,11 @@ import {ERC721} from "../lib/autonolas-registries/lib/solmate/src/tokens/ERC721.
 /// @param growId Grow Id.
 error GrowerOnly(address sender, address grower, uint256 growId);
 
+/// @dev Only `owner` has a privilege, but the `sender` was provided.
+/// @param sender Sender address.
+/// @param owner Required grower address.
+error OwnerOnly(address sender, address owner);
+
 /// @dev Grow does not exist.
 /// @param growId Grow Id.
 error GrowNotFound(uint256 growId);
@@ -78,6 +83,11 @@ contract GrowRegistry is GenericRegistry {
     /// @dev Sets the agent multisig address.
     /// @param _multisig Agent multisig address.
     function setMultisig(address _multisig) external {
+        // Check the contract ownership
+        if (msg.sender != owner) {
+            revert OwnerOnly(msg.sender, owner);
+        }
+
         if (_multisig == address(0)) {
             revert ZeroAddress();
         }
