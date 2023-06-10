@@ -6,15 +6,14 @@ import {GenericManager} from "../lib/autonolas-registries/contracts/GenericManag
 interface IGrowRegistry {
     /// @dev Creates a grow.
     /// @param growOwner Owner of the grow.
+    /// @param grower Grower address.
     /// @param growHash IPFS CID hash of the grow metadata.
     /// @return growId The id of a minted grow.
-    function create(address growOwner, bytes32 growHash) external returns (uint256 growId);
+    function create(address growOwner, address grower, bytes32 growHash) external returns (uint256 growId);
 }
 
 /// @title Grow Factory - Periphery smart contract for managing grow
 contract GrowFactory is GenericManager {
-    event CreateGrow(address indexed growOwner, uint256 indexed growId, bytes32 indexed growHash);
-
     // Grow factory version number
     string public constant VERSION = "1.0.0";
 
@@ -28,10 +27,12 @@ contract GrowFactory is GenericManager {
 
     /// @dev Creates a grow.
     /// @param growOwner Owner of the grow.
+    /// @param grower Grower address.
     /// @param growHash IPFS CID hash of the grow metadata.
     /// @return growId The id of a created grow.
     function create(
         address growOwner,
+        address grower,
         bytes32 growHash
     ) external returns (uint256 growId)
     {
@@ -40,7 +41,6 @@ contract GrowFactory is GenericManager {
             revert Paused();
         }
 
-        growId = IGrowRegistry(growRegistry).create(growOwner, growHash);
-        emit CreateGrow(growOwner, growId, growHash);
+        growId = IGrowRegistry(growRegistry).create(growOwner, grower, growHash);
     }
 }

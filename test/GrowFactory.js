@@ -8,7 +8,6 @@ describe("GrowFactory", function () {
     let growFactory;
     let signers;
     const growHash = "0x" + "5".repeat(64);
-    const price = 1;
     beforeEach(async function () {
         const GrowRegistry = await ethers.getContractFactory("GrowRegistry");
         growRegistry = await GrowRegistry.deploy("grow", "GROW", "https://localhost/grow/");
@@ -39,7 +38,7 @@ describe("GrowFactory", function () {
 
             // Try minting when paused
             await expect(
-                growFactory.create(user.address, growHash)
+                growFactory.create(user.address, user.address, growHash)
             ).to.be.revertedWithCustomError(growFactory, "Paused");
 
             // Try to unpause not from the owner of the service manager
@@ -52,7 +51,7 @@ describe("GrowFactory", function () {
 
             // Mint an grow
             await growRegistry.changeManager(growFactory.address);
-            await growFactory.create(user.address, growHash);
+            await growFactory.create(user.address, user.address, growHash);
         });
     });
 });

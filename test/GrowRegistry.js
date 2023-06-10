@@ -52,15 +52,20 @@ describe("GrowRegistry", function () {
         it("Should fail when creating an grow without a growFactory", async function () {
             const user = signers[2];
             await expect(
-                growRegistry.create(user.address, growHash)
+                growRegistry.create(user.address, user.address, growHash)
             ).to.be.revertedWithCustomError(growRegistry, "ManagerOnly");
         });
 
         it("Should fail when creating an grow with a zero owner address", async function () {
             const growFactory = signers[1];
+            const user = signers[2];
             await growRegistry.changeManager(growFactory.address);
             await expect(
-                growRegistry.connect(growFactory).create(AddressZero, growHash)
+                growRegistry.connect(growFactory).create(AddressZero, AddressZero, growHash)
+            ).to.be.revertedWithCustomError(growRegistry, "ZeroAddress");
+
+            await expect(
+                growRegistry.connect(growFactory).create(user.address, AddressZero, growHash)
             ).to.be.revertedWithCustomError(growRegistry, "ZeroAddress");
         });
 
@@ -69,7 +74,7 @@ describe("GrowRegistry", function () {
             const user = signers[2];
             await growRegistry.changeManager(growFactory.address);
             await expect(
-                growRegistry.connect(growFactory).create(user.address, ZeroBytes32)
+                growRegistry.connect(growFactory).create(user.address, user.address, ZeroBytes32)
             ).to.be.revertedWithCustomError(growRegistry, "ZeroValue");
         });
 
@@ -78,7 +83,7 @@ describe("GrowRegistry", function () {
             const user = signers[2];
             const tokenId = 1;
             await growRegistry.changeManager(growFactory.address);
-            await growRegistry.connect(growFactory).create(user.address, growHash);
+            await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
             expect(await growRegistry.balanceOf(user.address)).to.equal(1);
             expect(await growRegistry.exists(tokenId)).to.equal(true);
 
@@ -97,7 +102,7 @@ describe("GrowRegistry", function () {
             const growFactory = signers[1];
             const user = signers[2];
             await growRegistry.changeManager(growFactory.address);
-            const grow = await growRegistry.connect(growFactory).create(user.address, growHash);
+            const grow = await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
             const result = await grow.wait();
             expect(result.events[0].event).to.equal("Transfer");
         });
@@ -109,10 +114,9 @@ describe("GrowRegistry", function () {
             const user = signers[2];
             const user2 = signers[3];
             await growRegistry.changeManager(growFactory.address);
-            await growRegistry.connect(growFactory).create(user.address,
+            await growRegistry.connect(growFactory).create(user.address, user.address,
                 growHash);
-            await growRegistry.connect(growFactory).create(user2.address,
-                growHash1);
+            await growRegistry.connect(growFactory).create(user2.address, user2.address, growHash1);
             await expect(
                 growRegistry.updateHash(1, growHash2)
             ).to.be.revertedWithCustomError(growRegistry, "GrowerOnly");
@@ -126,7 +130,7 @@ describe("GrowRegistry", function () {
             const growFactory = signers[1];
             const user = signers[2];
             await growRegistry.changeManager(growFactory.address);
-            await growRegistry.connect(growFactory).create(user.address, growHash);
+            await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
 
             // Try to update with a zero hash
             await expect(
@@ -148,7 +152,7 @@ describe("GrowRegistry", function () {
 
             // Simulate the reentrancy attack
             await expect(
-                reentrancyAttacker.createBadAgent(reentrancyAttacker.address, growHash)
+                reentrancyAttacker.createBadAgent(reentrancyAttacker.address, reentrancyAttacker.address, growHash)
             ).to.be.revertedWithCustomError(growRegistry, "ReentrancyGuard");
         });
     });

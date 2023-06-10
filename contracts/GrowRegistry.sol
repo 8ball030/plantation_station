@@ -19,6 +19,7 @@ error GrowNotFound(uint256 growId);
 error GrowRedeemed(uint256 growId);
 
 /// @dev Proposed grow state is already redeemed.
+/// @param growId Grow Id.
 error WrongGrowStateRequested(uint256 growId);
 
 /// @dev Only `multisig` has a privilege, but the `sender` was provided.
@@ -26,6 +27,10 @@ error WrongGrowStateRequested(uint256 growId);
 /// @param multisig Required multisig address.
 /// @param growId Grow Id.
 error MultisigOnly(address sender, address multisig, uint256 growId);
+
+/// @dev Redeem is not approved by the grower.
+/// @param growId Grow Id.
+error RedeemNotApproved(uint256 growId);
 
 /// @title Grow Registry - Smart contract for registering grows
 contract GrowRegistry is GenericRegistry {
@@ -37,12 +42,13 @@ contract GrowRegistry is GenericRegistry {
         Redeemed
     }
 
-    event CreateGrow(address indexed growOwner, uint256 indexed growId, bytes32 indexed growHash);
-    event UpdateGrowHash(address indexed growOwner, uint256 indexed growId, bytes32 indexed growHash);
+    event CreateGrow(address indexed growOwner, address grower, uint256 indexed growId, bytes32 indexed growHash);
+    event UpdateGrowHash(address indexed grower, uint256 indexed growId, bytes32 indexed growHash);
     event Growing(address indexed multisig, uint256 indexed growId);
-    event HarvestProposed(address indexed growOwner, uint256 indexed growId);
+    event HarvestProposed(address indexed grower, uint256 indexed growId);
     event ReadyToHarvest(address indexed multisig, uint256 indexed growId);
-    event Harvested(address indexed growOwner, uint256 indexed growId);
+    event Harvested(address indexed grower, uint256 indexed growId);
+    event ApproveRedeem(address indexed grower, uint256 indexed growId);
     event Redeemed(address indexed growOwner, uint256 indexed growId);
 
     // Grow registry version number
@@ -55,6 +61,8 @@ contract GrowRegistry is GenericRegistry {
     mapping(uint256 => GrowState) public mapGrowIdStates;
     // Map of grow Id => grower address
     mapping(uint256 => address) public mapGrowIdGrowers;
+    // Map of grow Id => approval for redemption
+    mapping(uint256 => bool) public mapGrowIdApprovals;
 
     /// @dev Grow registry constructor.
     /// @param _name Grow registry contract name.
@@ -69,9 +77,10 @@ contract GrowRegistry is GenericRegistry {
 
     /// @dev Creates a grow.
     /// @param growOwner Owner of the grow.
+    /// @param grower Grower address.
     /// @param growHash IPFS CID hash of the grow metadata.
     /// @return growId The id of a created grow.
-    function create(address growOwner, bytes32 growHash) external returns (uint256 growId) {
+    function create(address growOwner, address grower, bytes32 growHash) external returns (uint256 growId) {
         // Reentrancy guard
         if (_locked > 1) {
             revert ReentrancyGuard();
@@ -83,8 +92,8 @@ contract GrowRegistry is GenericRegistry {
             revert ManagerOnly(msg.sender, manager);
         }
 
-        // Checks for a non-zero owner address
-        if(growOwner == address(0)) {
+        // Checks for a non-zero grow owner and grower addresses
+        if(growOwner == address(0) || grower == address(0)) {
             revert ZeroAddress();
         }
 
@@ -106,10 +115,10 @@ contract GrowRegistry is GenericRegistry {
         // Safe mint is needed since contracts can create grows as well
         _safeMint(growOwner, growId);
 
-        // Set the grower address to be the same as the owner address in the initial mint
-        mapGrowIdGrowers[growId] = growOwner;
+        // Set the grower address
+        mapGrowIdGrowers[growId] = grower;
 
-        emit CreateGrow(growOwner, growId, growHash);
+        emit CreateGrow(growOwner, grower, growId, growHash);
         _locked = 1;
     }
 
@@ -210,15 +219,9 @@ contract GrowRegistry is GenericRegistry {
         emit Harvested(msg.sender, growId);
     }
 
-    /// @dev Redeems the grow.
+    /// @dev Approves to redeem the grow.
     /// @param growId Grow id.
-    function redeem(uint256 growId) external {
-        // Checking the grow ownership
-        address growOwner = ownerOf(growId);
-        if (growOwner != msg.sender) {
-            revert GrowerOnly(msg.sender, growOwner, growId);
-        }
-
+    function approveRedeem(uint256 growId) external {
         // Checking the grower address
         address grower = mapGrowIdGrowers[growId];
         if (grower != msg.sender) {
@@ -229,6 +232,32 @@ contract GrowRegistry is GenericRegistry {
         GrowState currentGrowState = mapGrowIdStates[growId];
         if (currentGrowState != GrowState.Harvested) {
             revert WrongGrowStateRequested(growId);
+        }
+
+        // Approve the grow redemption
+        mapGrowIdApprovals[growId] = true;
+        emit ApproveRedeem(msg.sender, growId);
+    }
+
+    /// @dev Redeems the grow.
+    /// @param growId Grow id.
+    function redeem(uint256 growId) external {
+        // Checking the grow ownership
+        address growOwner = ownerOf(growId);
+        if (growOwner != msg.sender) {
+            revert GrowerOnly(msg.sender, growOwner, growId);
+        }
+
+        // Check for the correct grow state
+        GrowState currentGrowState = mapGrowIdStates[growId];
+        if (currentGrowState != GrowState.Harvested) {
+            revert WrongGrowStateRequested(growId);
+        }
+
+        // Checking the redemption approval
+        bool approved = mapGrowIdApprovals[growId];
+        if (!approved) {
+            revert RedeemNotApproved(growId);
         }
 
         // Record the proposed grow state
