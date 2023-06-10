@@ -6,8 +6,9 @@ aea fetch zarathustra/plantation --local
 # go to the new agent
 cd plantation
 
-# install the agent
-aea install
+# install the agent Note this causes a dependency issue
+echo "Skilling install of aea deps" 
+# aea install
 
 # create and add a new ethereum key
 aea generate-key ethereum && aea add-key ethereum

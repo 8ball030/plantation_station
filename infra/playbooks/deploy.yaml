@@ -3,12 +3,20 @@
 - name: Deploy Plantation Station
   hosts: all
   tasks:
-  - name: cd to repo directory
-    shell: cd ~/plantation_station && git pull
+  - name: checkout from the directory and pull the latest changes
+    git:
+      repo: https://github.com/8ball030/plantation_station.git
+      dest: ~/plantation_station
+      update: yes
+      force: true
+
+
 
   - name: sync packages
-    shell: /usr/local/bin/poetry run autonomy packages sync
-    become: yes
+  # in directory ~/plantation_station
+
+    shell: cd ~/plantation_station/mas && /usr/local/bin/poetry run autonomy packages sync
+
 
   - name: stop plantation service
     shell: systemctl stop agent.service
@@ -34,3 +42,10 @@
 
   - name: start plantation service
     shell: systemctl start agent.service
+
+
+  # we know its working when the tcp tcp://127.0.0.1:26658 is open
+  - name: wait for tendermint to start
+    wait_for:
+      host:
+        - tcp://127.0.0.1:26658
