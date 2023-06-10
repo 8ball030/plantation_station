@@ -1,0 +1,50 @@
+---
+name: Deploy Plantation Station
+hosts: all
+tasks:
+- name: cd to repo directory
+  shell: cd /home/pi/plantation_station
+  tags:
+    - deploy
+
+- name: fetch latest changes via git pull
+  shell: git pull
+  tags:
+    - deploy
+
+- name: stop plantation service
+  shell: systemctl stop pagent.service
+  tags:
+    - deploy
+
+- name: remove agent directory
+  shell: rm -rf /home/pi/plantation_station/agent
+  tags:
+    - deploy
+
+- name: start plantation service
+  shell: systemctl start agent.service
+  tags:
+    - deploy
+
+
+- name: stop tendermint service
+  shell: systemctl stop tendermint.service
+  tags:
+    - deploy
+
+- name: remove tendermint directory
+  shell: rm -rf ~/.tendermint
+  tags:
+    - deploy
+
+- name: init tendermint
+  shell: tendermint init
+  tags:
+    - deploy
+
+- name: start tendermint service
+  shell: systemctl start tendermint.service
+  tags:
+    - deploy
+```

@@ -1,0 +1,13 @@
+---
+- name: Configure Raspberry Pi.
+  hosts: all
+  tasks:
+
+  # check if poetry is installed
+  
+  # install poetry if not installed
+  - name: Install Poetry
+    become: yes
+    pip:
+      name: poetry
+      state: present

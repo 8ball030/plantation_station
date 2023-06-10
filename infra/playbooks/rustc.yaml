@@ -1,0 +1,21 @@
+hosts: all
+tasks:
+  - name: Check if cargo is installed
+    register: cargo_exists
+    ignore_errors: yes
+    shell: cargo --version
+    args:
+       executable: /bin/bash
+
+
+  - name: Download Installer
+    when: cargo_exists is failed
+    shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+  - name: add cargo to path
+    when: cargo_exists is failed
+    lineinfile:
+      path: $HOME/.bashrc
+      line: 'source $HOME/.cargo/env'
+    tags:
+      - rust

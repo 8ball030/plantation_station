@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "infra"
+version = "0.1.0"
+description = ""
+authors = ["8baller <8ball030@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ansible = "^8.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
