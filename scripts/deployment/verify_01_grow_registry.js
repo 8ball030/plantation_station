@@ -1,0 +1,13 @@
+const fs = require("fs");
+const globalsFile = "globals.json";
+const dataFromJSON = fs.readFileSync(globalsFile, "utf8");
+const parsedData = JSON.parse(dataFromJSON);
+const growRegistryName = parsedData.growRegistryName;
+const growRegistrySymbol = parsedData.growRegistrySymbol;
+const baseURI = parsedData.baseURI;
+
+module.exports = [
+    growRegistryName,
+    growRegistrySymbol,
+    baseURI
+];

@@ -42,4 +42,3 @@ cd plantation_station
 ## License
 
 This project is licensed under the [GPL 2.0 license](./LICENSE).
-
