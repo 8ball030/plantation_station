@@ -30,6 +30,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData,
     DegenerateRound,
     EventToTimeout,
+    get_name,
 )
 
 from packages.zarathustra.skills.plantation_station_abci.payloads import (
@@ -60,6 +61,11 @@ class SynchronizedData(BaseSynchronizedData):
 
     This data is replicated by the tendermint application.
     """
+
+    @property
+    def most_voted_tx_hash(self) -> float:
+        """Get the most_voted_tx_hash."""
+        return cast(float, self.db.get_strict("most_voted_tx_hash"))
 
 
 class AttestProposalRound(AbstractRound):
@@ -330,11 +336,13 @@ class PlantationStationAbciApp(AbciApp[Event]):
     }
     final_states: Set[AppState] = {ResetPlantationStationRound, TransactionSubmissionRound}
     event_to_timeout: EventToTimeout = {}
-    cross_period_persisted_keys: Set[str] = []
+    cross_period_persisted_keys: Set[str] = set()
     db_pre_conditions: Dict[AppState, Set[str]] = {
-        ObservationCollectionRound: [],
+        ObservationCollectionRound: {
+            get_name(SynchronizedData.participants),
+        },
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
-        ResetPlantationStationRound: [],
-    	TransactionSubmissionRound: [],
+        ResetPlantationStationRound: set(),
+        TransactionSubmissionRound: {get_name(SynchronizedData.most_voted_tx_hash)},
     }
