@@ -1,5 +1,9 @@
 {
-    "dev": {},
+    "dev": {
+        "skill/zarathustra/plantation_abci/0.1.0": "bafybeifbknprkv37lbpvf2pasu2zhvuovscqudzxp2vfuydaadjwqypm7m",
+        "agent/zarathustra/plantation_abci/0.1.0": "bafybeiaamjaftpee4inp5arhynt4lklb7ebkwweuvnp7o3omg5k533bbfq",
+        "skill/zarathustra/plantation_station_abci/0.1.0": "bafybeidoagcducwpmdem3gobghh26ikvob4qduqvlexj4qcddtukzp334i"
+    },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4",
         "protocol/valory/ledger_api/1.0.0": "bafybeibo4bdtcrxi2suyzldwoetjar6pqfzm6vt5xal22ravkkcvdmtksi",
@@ -22,8 +26,8 @@
         "contract/valory/multisend/0.1.0": "bafybeigjywkl7hydjsrkogob3xebj2ifhqwmfhhxoeyrndzhhxi5u6amey",
         "protocol/valory/ipfs/0.1.0": "bafybeic72ncgqbzoz2guj4p4yjqulid7mv6yroeh65hxznloamoveeg7hq",
         "connection/valory/ipfs/0.1.0": "bafybeihubpyw2t3bwncz3l7jt4gf5xvfydwmob463vvgf3ikkhlwxakm3m",
-        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeiaeu47qmeeqipn6jnz4ymbxwqb66axvx3ddzocnni4zehbhiupc54",
-        "skill/valory/registration_abci/0.1.0": "bafybeidqcszsitlmsofegmbprny22hqlent2o6luxng5a46gplytexrtbq",
-        "skill/valory/reset_pause_abci/0.1.0": "bafybeidprdrxzbloz5imufkbpvetvkhywdvq3fopbhdzztfnud4onsdsce"
+        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeidhthq3h23tauhrljltwwwcjtii3kp44e2jdsnvjcin43ovniqstm",
+        "skill/valory/registration_abci/0.1.0": "bafybeiext567dqwlzfaa2asrzyaceb6zvf5evaecscwsnhd27yt5xyy5oy",
+        "skill/valory/reset_pause_abci/0.1.0": "bafybeibayjshwvymeieird2cm6m5jeduqxq7dpdplef2qx4lse64n5j4xq"
     }
 }
