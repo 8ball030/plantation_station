@@ -8,6 +8,7 @@ Plantation Station is a decentralized agent service that monitors, manages and o
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Features](#features)
+  - [Requirements](#requirements)
   - [Installation](#installation)
   - [License](#license)
 
@@ -25,6 +26,18 @@ One unique feature of Liquidation Station is the ability for NFT holders to acqu
 -  **PWN Marketplace Integration**: Utilize NFTs as collateral on the PWN marketplace, enabling growers to access upfront capital for operational funding.
 - **Investment Opportunity**: Enable individuals to invest in discounted NFTs representing real-world produce, providing them with a unique way to participate in the agricultural sector.
 
+## Requirements
+
+pyenv
+
+Tendermint
+```bash
+wget https://github.com/tendermint/tendermint/releases/download/v0.34.11/tendermint_0.34.11_linux_amd64.tar.gz
+
+tar -xf tendermint_0.34.11_linux_amd64.tar.gz
+sudo mv tendermint /usr/local/bin/tendermint
+```
+
 ## Installation
 
 To use Liquidation Station, follow the steps below:
@@ -36,9 +49,34 @@ git clone https://github.com/8ball030/plantation_station.git
 cd plantation_station
 ```
 
-2. 
+2. Setup environment
+```shell
+poetry shell
+poetry install
+```
+
+3. Obtain package dependencies from remote IPFS registry
+```shell
+autonomy packages sync
+```
+
+4. Start a local Tendermint node
+
+```shell
+sudo tendermint init validator && sudo cp -r /root/.tendermint ~/  && sudo chown -R (whoami):(whoami) ~/.tendermint
+tendermint start
+```
+
+5. Start the ABCI application
+
+In a separate terminal, after dropping into venv: `poetry shell`
+
+```shell
+make run-single-agent
+```
 
 
 ## License
 
 This project is licensed under the [GPL 2.0 license](./LICENSE).
+
