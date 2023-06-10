@@ -61,8 +61,8 @@ are_deps_dirty: clean
 		exit 1;\
 	fi;\
 
-lock:
-	autonomy hash all && autonomy packages lock
+lock: clean
+	autonomy packages lock && autonomy hash all && autonomy push-all --remote
 
 run-single-agent:
 	bash scripts/start_agent.sh
