@@ -30,7 +30,7 @@
     shell: rm -rf ~/.tendermint
 
   - name: remove agent directory
-    shell: rm -rf ~/plantation_station/agent
+    shell: rm -rf ~/plantation_station/mas/plantation
 
   - name: init tendermint
     shell: tendermint init
@@ -42,10 +42,7 @@
 
   - name: start plantation service
     shell: systemctl start agent.service
+    become: yes
 
 
   # we know its working when the tcp tcp://127.0.0.1:26658 is open
-  - name: wait for tendermint to start
-    wait_for:
-      host:
-        - tcp://127.0.0.1:26658
