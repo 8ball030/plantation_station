@@ -8,3 +8,8 @@ typechain
 # Hardhat files
 artifacts
 cache
+mas/packages/valory/
+mas/packages/open_aea/
+mas/packages/fetchai/
+
+
