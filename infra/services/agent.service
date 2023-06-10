@@ -6,6 +6,6 @@ After=network.target
 [Service]
 Type=simple
 User=tom
-WorkingDirectory=/home/tom/plantation_station
-ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && make run-single-agent'
+WorkingDirectory=/home/tom/plantation_station/mas
+ExecStart=/usr/local/bin/poetry run make run-single-agent
 
