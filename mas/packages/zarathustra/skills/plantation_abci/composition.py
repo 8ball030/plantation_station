@@ -52,7 +52,7 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedRegistrationRound: ObservationCollectionRound,
     TransactionSubmissionRound: RandomnessTransactionSubmissionRound,
     ResetPlantationStationRound: ResetAndPauseRound,
-    FinishedTransactionSubmissionRound: ResetAndPauseRound,
+    FinishedTransactionSubmissionRound: ResetAndPauseRound, 
     FailedRound: ResetAndPauseRound,
     FinishedResetAndPauseRound: ObservationCollectionRound,
     FinishedResetAndPauseErrorRound: RegistrationRound,

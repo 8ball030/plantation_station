@@ -8,7 +8,7 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeifsvvzooigdgdhglpe5s3o3zeyv6sqjyyyi4yzehxj6fz3777szj4
   behaviours.py: bafybeiguvxshe3c2hwsvlpaocvdodvtctfjlbw5q24iuxma3bclpns6bwm
-  composition.py: bafybeiaquzazjshmz6w5e25y2bclqkovvijd7edhbiujg6hwfq5wugjqua
+  composition.py: bafybeifqbfasusgzgua2nn2bc5tbclihrkwgwd63iovw77vfpyj5amcj24
   dialogues.py: bafybeibr3teohlw2jegfw54zycsgcgvpgu5tilxwd4rmgxhwra6gbprexa
   fsm_specification.yaml: bafybeig4a6vqa75ng5xj32z6tnkdbpglltt5vagaancd3anv7cyt6v3npq
   handlers.py: bafybeicngdzpi2net2bmzrqpzak344oxn2i4d62quo6notjvw2mkp2s6fq
@@ -25,7 +25,11 @@ connections: []
 contracts: []
 protocols: []
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeiar4gy4brpuxekiwjq7osh3fm254jgdoxlgkvqcp5lytu4uzrmbsm
+- valory/abstract_round_abci:0.1.0:bafybeia5p2un57sojlnqi4njafio6u2sfhlvr3o6hbmzy37tmcrlxkpium
+- valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
+- valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
+- valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
+- zarathustra/plantation_station_abci:0.1.0:bafybeidmgd3joquw6ggwetjx46ayokrw5oepmdmwldyjrkm5fcla6rgimu
 behaviours:
   main:
     args: {}
@@ -139,4 +143,4 @@ models:
     args: {}
     class_name: TendermintDialogues
 dependencies: {}
-is_abstract: false
+is_abstract: true

@@ -31,7 +31,7 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
     make_degenerate_behaviour,
 )
-from packages.zarathustra.skills.plantation_station.behaviours import (
+from packages.zarathustra.skills.plantation_station_abci.behaviours import (
     PlantationStationBaseBehaviour,
     PlantationStationRoundBehaviour,
     AttestProposalBehaviour,
@@ -43,7 +43,7 @@ from packages.zarathustra.skills.plantation_station.behaviours import (
     PrepareObservationTransactionBehaviour,
     ReadSensorDataBehaviour,
 )
-from packages.zarathustra.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station_abci.rounds import (
     SynchronizedData,
     DegenerateRound,
     Event,

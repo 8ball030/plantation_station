@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 
 import pytest
 
-from packages.zarathustra.skills.plantation_station.payloads import (
+from packages.zarathustra.skills.plantation_station_abci.payloads import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -34,7 +34,7 @@ from packages.zarathustra.skills.plantation_station.payloads import (
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
 )
-from packages.zarathustra.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station_abci.rounds import (
     AbstractRound,
     Event,
     SynchronizedData,
