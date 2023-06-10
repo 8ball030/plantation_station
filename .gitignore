@@ -1,10 +1,10 @@
 node_modules
-.env
+.*
+!/.gitignore
 coverage
 coverage.json
 typechain
-*.DS_Store
-
+**/__pycache__/
 # Hardhat files
 artifacts
 cache

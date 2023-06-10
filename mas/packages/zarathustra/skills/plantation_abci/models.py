@@ -27,6 +27,9 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
+from packages.zarathustra.skills.plantation_station_abci.models import (
+    RandomnessApi as BaseRandomnessApi,
+)
 from packages.zarathustra.skills.plantation_abci.composition import PlantationAbciApp
 
 
@@ -39,3 +42,4 @@ class SharedState(BaseSharedState):
 Params = BaseParams
 Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
+RandomnessApi = BaseRandomnessApi
