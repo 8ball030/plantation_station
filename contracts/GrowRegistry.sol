@@ -97,11 +97,6 @@ contract GrowRegistry is GenericRegistry {
         }
         _locked = 2;
 
-        // Check for the manager privilege for a grow creation
-        if (manager != msg.sender) {
-            revert ManagerOnly(msg.sender, manager);
-        }
-
         // Checks for a non-zero grow owner and grower addresses
         if(growOwner == address(0) || grower == address(0)) {
             revert ZeroAddress();

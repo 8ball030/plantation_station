@@ -37,12 +37,6 @@ describe("GrowRegistry", function () {
             expect(await growRegistry.exists(tokenId)).to.equal(false);
         });
 
-        it("Should fail when trying to change the growFactory from a different address", async function () {
-            await expect(
-                growRegistry.connect(signers[1]).changeManager(signers[1].address)
-            ).to.be.revertedWithCustomError(growRegistry, "OwnerOnly");
-        });
-
         it("Setting the base URI", async function () {
             await growRegistry.setBaseURI("https://localhost2/grow/");
             expect(await growRegistry.baseURI()).to.equal("https://localhost2/grow/");
@@ -50,17 +44,10 @@ describe("GrowRegistry", function () {
     });
 
     context("Grow creation", async function () {
-        it("Should fail when creating an grow without a growFactory", async function () {
-            const user = signers[2];
-            await expect(
-                growRegistry.create(user.address, user.address, growHash)
-            ).to.be.revertedWithCustomError(growRegistry, "ManagerOnly");
-        });
-
         it("Should fail when creating an grow with a zero owner address", async function () {
             const growFactory = signers[1];
             const user = signers[2];
-            await growRegistry.changeManager(growFactory.address);
+            
             await expect(
                 growRegistry.connect(growFactory).create(AddressZero, AddressZero, growHash)
             ).to.be.revertedWithCustomError(growRegistry, "ZeroAddress");
@@ -73,7 +60,7 @@ describe("GrowRegistry", function () {
         it("Should fail when creating an grow with a zero owner address", async function () {
             const growFactory = signers[1];
             const user = signers[2];
-            await growRegistry.changeManager(growFactory.address);
+            
             await expect(
                 growRegistry.connect(growFactory).create(user.address, user.address, ZeroBytes32)
             ).to.be.revertedWithCustomError(growRegistry, "ZeroValue");
@@ -83,7 +70,7 @@ describe("GrowRegistry", function () {
             const growFactory = signers[1];
             const user = signers[2];
             const tokenId = 1;
-            await growRegistry.changeManager(growFactory.address);
+            
             await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
             expect(await growRegistry.balanceOf(user.address)).to.equal(1);
             expect(await growRegistry.exists(tokenId)).to.equal(true);
@@ -102,7 +89,7 @@ describe("GrowRegistry", function () {
         it("Catching \"Transfer\" event log after successful creation of an grow", async function () {
             const growFactory = signers[1];
             const user = signers[2];
-            await growRegistry.changeManager(growFactory.address);
+            
             const grow = await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
             const result = await grow.wait();
             expect(result.events[0].event).to.equal("Transfer");
@@ -113,7 +100,7 @@ describe("GrowRegistry", function () {
         it("Should fail when trying to change the wrong grow state", async function () {
             const growOwner = signers[0];
             const grower = signers[1];
-            await growRegistry.changeManager(growOwner.address);
+
             await growRegistry.create(growOwner.address, grower.address, growHash);
 
             await expect(
@@ -137,7 +124,6 @@ describe("GrowRegistry", function () {
             const growOwner = signers[0];
             const grower = signers[1];
             const multisig = signers[2];
-            await growRegistry.changeManager(growOwner.address);
             // Create the grow
             await growRegistry.create(growOwner.address, grower.address, growHash);
             // Set the multisig
@@ -160,7 +146,7 @@ describe("GrowRegistry", function () {
             const growFactory = signers[1];
             const user = signers[2];
             const user2 = signers[3];
-            await growRegistry.changeManager(growFactory.address);
+            
             await growRegistry.connect(growFactory).create(user.address, user.address,
                 growHash);
             await growRegistry.connect(growFactory).create(user2.address, user2.address, growHash1);
@@ -176,7 +162,7 @@ describe("GrowRegistry", function () {
         it("Update hash, get component hashes", async function () {
             const growFactory = signers[1];
             const user = signers[2];
-            await growRegistry.changeManager(growFactory.address);
+            
             await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
 
             // Try to update with a zero hash
@@ -194,9 +180,6 @@ describe("GrowRegistry", function () {
 
     context("Reentrancy attack", async function () {
         it("Reentrancy attack by the manager during the service creation", async function () {
-            // Change the manager to the attacker contract address
-            await growRegistry.changeManager(reentrancyAttacker.address);
-
             // Simulate the reentrancy attack
             await expect(
                 reentrancyAttacker.createBadAgent(reentrancyAttacker.address, reentrancyAttacker.address, growHash)
