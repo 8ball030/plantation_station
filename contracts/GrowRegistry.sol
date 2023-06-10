@@ -20,7 +20,7 @@ error GrowRedeemed(uint256 growId);
 
 /// @dev Proposed grow state is already redeemed.
 /// @param growId Grow Id.
-error WrongGrowStateRequested(uint256 growId);
+error WrongGrowState(uint256 growId);
 
 /// @dev Only `multisig` has a privilege, but the `sender` was provided.
 /// @param sender Sender address.
@@ -53,7 +53,7 @@ contract GrowRegistry is GenericRegistry {
 
     // Grow registry version number
     string public constant VERSION = "1.0.0";
-    // Multisig address
+    // Agent multisig address
     address public multisig;
     // Map of grow Id => set of updated IPFS hashes
     mapping(uint256 => bytes32) public mapGrowIdHashes;
@@ -73,6 +73,16 @@ contract GrowRegistry is GenericRegistry {
     {
         baseURI = _baseURI;
         owner = msg.sender;
+    }
+
+    /// @dev Sets the agent multisig address.
+    /// @param _multisig Agent multisig address.
+    function setMultisig(address _multisig) external {
+        if (_multisig == address(0)) {
+            revert ZeroAddress();
+        }
+
+        multisig = _multisig;
     }
 
     /// @dev Creates a grow.
@@ -165,7 +175,7 @@ contract GrowRegistry is GenericRegistry {
         // Check for the correct grow state
         GrowState currentGrowState = mapGrowIdStates[growId];
         if (currentGrowState != GrowState.Growing) {
-            revert WrongGrowStateRequested(growId);
+            revert WrongGrowState(growId);
         }
 
         // Record the proposed grow state
@@ -185,8 +195,8 @@ contract GrowRegistry is GenericRegistry {
 
         // Get the proposed grow state
         GrowState growState = mapGrowIdStates[growId];
-        if (growState == GrowState.HarvestProposed) {
-            revert WrongGrowStateRequested(growId);
+        if (growState != GrowState.HarvestProposed) {
+            revert WrongGrowState(growId);
         }
 
         // Change the grow state
@@ -211,7 +221,7 @@ contract GrowRegistry is GenericRegistry {
         // Check for the correct grow state
         GrowState currentGrowState = mapGrowIdStates[growId];
         if (currentGrowState != GrowState.ReadyToHarvest) {
-            revert WrongGrowStateRequested(growId);
+            revert WrongGrowState(growId);
         }
 
         // Record the proposed grow state
@@ -231,7 +241,7 @@ contract GrowRegistry is GenericRegistry {
         // Check for the correct grow state
         GrowState currentGrowState = mapGrowIdStates[growId];
         if (currentGrowState != GrowState.Harvested) {
-            revert WrongGrowStateRequested(growId);
+            revert WrongGrowState(growId);
         }
 
         // Approve the grow redemption
@@ -251,7 +261,7 @@ contract GrowRegistry is GenericRegistry {
         // Check for the correct grow state
         GrowState currentGrowState = mapGrowIdStates[growId];
         if (currentGrowState != GrowState.Harvested) {
-            revert WrongGrowStateRequested(growId);
+            revert WrongGrowState(growId);
         }
 
         // Checking the redemption approval

@@ -12,6 +12,7 @@ describe("GrowRegistry", function () {
     const growHash2 = "0x" + "2".repeat(64);
     const AddressZero = "0x" + "0".repeat(40);
     const ZeroBytes32 = "0x" + "0".repeat(64);
+    const growId = 1;
     beforeEach(async function () {
         const GrowRegistry = await ethers.getContractFactory("GrowRegistry");
         growRegistry = await GrowRegistry.deploy("grow", "GROW", "https://localhost/grow/");
@@ -105,6 +106,52 @@ describe("GrowRegistry", function () {
             const grow = await growRegistry.connect(growFactory).create(user.address, user.address, growHash);
             const result = await grow.wait();
             expect(result.events[0].event).to.equal("Transfer");
+        });
+    });
+
+    context("Grow process", async function () {
+        it("Should fail when trying to change the wrong grow state", async function () {
+            const growOwner = signers[0];
+            const grower = signers[1];
+            await growRegistry.changeManager(growOwner.address);
+            await growRegistry.create(growOwner.address, grower.address, growHash);
+
+            await expect(
+                growRegistry.setGrowState(growId, 1)
+            ).to.be.revertedWithCustomError(growRegistry, "MultisigOnly");
+
+            await expect(
+                growRegistry.connect(grower).harvest(growId)
+            ).to.be.revertedWithCustomError(growRegistry, "WrongGrowState");
+
+            await expect(
+                growRegistry.connect(grower).redeem(growId)
+            ).to.be.revertedWithCustomError(growRegistry, "GrowerOnly");
+
+            await expect(
+                growRegistry.connect(growOwner).redeem(growId)
+            ).to.be.revertedWithCustomError(growRegistry, "WrongGrowState");
+        });
+
+        it("Grow process workflow", async function () {
+            const growOwner = signers[0];
+            const grower = signers[1];
+            const multisig = signers[2];
+            await growRegistry.changeManager(growOwner.address);
+            // Create the grow
+            await growRegistry.create(growOwner.address, grower.address, growHash);
+            // Set the multisig
+            await growRegistry.setMultisig(multisig.address);
+            // Propose to harvest
+            await growRegistry.connect(grower).proposeToHarvest(growId);
+            // Approve by the agent multisig
+            await growRegistry.connect(multisig).setGrowState(growId, true);
+            // Harvest the grow
+            await growRegistry.connect(grower).harvest(growId);
+            // Approve for redeem
+            await growRegistry.connect(grower).approveRedeem(growId);
+            // Redeem
+            await growRegistry.connect(growOwner).redeem(growId);
         });
     });
 
