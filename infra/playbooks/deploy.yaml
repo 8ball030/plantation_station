@@ -1,0 +1,65 @@
+---
+name: Deploy Plantation Station
+hosts: all
+tasks:
+- name: cd to repo directory
+  shell: cd /home/pi/plantation_station
+  tags:
+    - deploy
+
+- name: fetch latest changes via git pull
+  shell: git pull
+  tags:
+    - deploy
+
+- name: stop plantation service
+  shell: systemctl stop plantation.service
+  tags:
+    - deploy
+
+- name: remove agent directory
+  shell: rm -rf /home/pi/plantation_station/agent
+  tags:
+    - deploy
+
+- name: start plantation service
+  shell: systemctl start agent.service
+  tags:
+    - deploy
+
+
+- name: stop tendermint service
+  shell: systemctl stop tendermint.service
+  tags:
+    - deploy
+
+- name: remove tendermint directory
+  shell: rm -rf ~/.tendermint
+  tags:
+    - deploy
+
+- name: init tendermint
+  shell: tendermint init
+  tags:
+    - deploy
+
+- name: start tendermint service
+  shell: systemctl start tendermint.service
+  tags:
+    - deploy
+```
+# service files
+
+## plantation.service
+[Unit]
+Description=Plantation Station Service
+After=network.target
+
+[Service]
+Type=simple
+User=tom
+WorkingDirectory=/home/tom/plantation_station
+ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && poetry run make run-single-agent'
+
+
+# 

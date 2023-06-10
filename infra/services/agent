@@ -1,0 +1,11 @@
+## plantation.service
+[Unit]
+Description=Plantation Station Service
+After=network.target
+
+[Service]
+Type=simple
+User=tom
+WorkingDirectory=/home/tom/plantation_station
+ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && poetry run make run-single-agent'
+

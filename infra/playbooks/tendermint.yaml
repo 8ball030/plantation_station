@@ -1,0 +1,45 @@
+---
+# configure and install 
+- name: Install Tendermint
+  hosts: all
+  tasks:
+
+    - name: Check if Tendermint is installed
+      shell: command -v tendermint
+      register: tendermint_exists
+      ignore_errors: yes
+
+    - name: Ensure Tendermint directory exists
+      when: tendermint_exists is failed
+      file:
+        path: ~/tendermint
+        state: directory
+        mode: 0755
+
+    - name: Download Tendermint
+      when: tendermint_exists is failed
+      get_url:
+        url: https://github.com/tendermint/tendermint/releases/download/v0.34.11/tendermint_0.34.11_linux_armv6.tar.gz
+        dest: ~/tendermint/tendermint_0.34.11_linux_armv6.tar.gz
+        mode: 0755
+        force: yes
+
+    - name: Extract Tendermint
+      when: tendermint_exists is failed
+      unarchive:
+        src: ~/tendermint/tendermint_0.34.11_linux_armv6.tar.gz
+        dest: ~/tendermint
+        remote_src: yes
+        creates: ~/tendermint/tendermint
+
+
+    - name: Copy Tendermint binary
+      when: tendermint_exists is failed
+      shell: sudo cp ~/tendermint/tendermint /usr/local/bin/tendermint
+
+    - name: Clean up Tendermint
+      when: tendermint_exists is failed
+      file:
+        path: ~/tendermint
+        state: absent
+      ignore_errors: yes
