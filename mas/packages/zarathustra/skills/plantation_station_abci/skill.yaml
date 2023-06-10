@@ -6,14 +6,14 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeib27nysks5i7fobzg3tuj7dew2f46nwpv25ofru4ngz5hvfd3jn3a
-  behaviours.py: bafybeibs764z3lyfejvluusjdvpjf4i33mimqgs7laljpbkpdh6mfxt6na
+  __init__.py: bafybeicuvify5jdhn3sfh7zh4yaredcjqq2kntewrgxjpie26vf6tmg2fy
+  behaviours.py: bafybeie5jqbn3fktdwvfapt456lvlqwkewz2d7thmvlsyradh67clmsfta
   dialogues.py: bafybeiafvnzdkydxmqgy6nigxlt7nj4jx65tlh6so3yc7cryuoyr6lwhni
   fsm_specification.yaml: bafybeibu4dk45s7ugete7gpthdkpci76aliunnvmucxz6di7ycyuvq6upy
   handlers.py: bafybeihphy2gyivgr22d5yq2atovkdxavvvfm4qkwfcgnfp36hhe7gr3yq
   models.py: bafybeifbl6itzwmblkokfyih62zsa6jci6tbkmkayhtux5vfpmrmynpu6q
   payloads.py: bafybeiaqrtfhw3wxytwahj4qyhfgn6cyqmseormao5tpzvfil36uyjaeba
-  rounds.py: bafybeihazu4rtflkqbj3ntjqfizxbkdg6pq5uvqwkjlxp72x2x2artghhu
+  rounds.py: bafybeiapcymes3fut6cfmkotr3awu46d5zargbfvczcxkkg4lmhr6sd6ea
   tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
   tests/test_behaviours.py: bafybeiblhndlgtr7yz6z4vjrznasctky3sj3uanhcamx2n4boexgyvd2qi
   tests/test_dialogues.py: bafybeia6ca3rslpaitnhs6kl7rmztqfffsykc2vagqxitmdbl4bu6uwxqe
@@ -26,7 +26,7 @@ connections: []
 contracts: []
 protocols: []
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeibdljcw2wchyderkonobpdpyb36yioagqcaoqldydw5bi6vvempma
+- valory/abstract_round_abci:0.1.0:bafybeiar4gy4brpuxekiwjq7osh3fm254jgdoxlgkvqcp5lytu4uzrmbsm
 behaviours:
   main:
     args: {}
