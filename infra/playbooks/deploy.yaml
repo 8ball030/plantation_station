@@ -1,50 +1,36 @@
 ---
-name: Deploy Plantation Station
-hosts: all
-tasks:
-- name: cd to repo directory
-  shell: cd /home/pi/plantation_station
-  tags:
-    - deploy
 
-- name: fetch latest changes via git pull
-  shell: git pull
-  tags:
-    - deploy
+- name: Deploy Plantation Station
+  hosts: all
+  tasks:
+  - name: cd to repo directory
+    shell: cd ~/plantation_station && git pull
 
-- name: stop plantation service
-  shell: systemctl stop pagent.service
-  tags:
-    - deploy
+  - name: sync packages
+    shell: /usr/local/bin/poetry run autonomy packages sync
+    become: yes
 
-- name: remove agent directory
-  shell: rm -rf /home/pi/plantation_station/agent
-  tags:
-    - deploy
+  - name: stop plantation service
+    shell: systemctl stop agent.service
+    become: yes
 
-- name: start plantation service
-  shell: systemctl start agent.service
-  tags:
-    - deploy
+  - name: stop tendermint service
+    shell: systemctl stop tendermint.service
+    become: yes
 
+  - name: remove tendermint directory
+    shell: rm -rf ~/.tendermint
 
-- name: stop tendermint service
-  shell: systemctl stop tendermint.service
-  tags:
-    - deploy
+  - name: remove agent directory
+    shell: rm -rf ~/plantation_station/agent
 
-- name: remove tendermint directory
-  shell: rm -rf ~/.tendermint
-  tags:
-    - deploy
+  - name: init tendermint
+    shell: tendermint init
+    become: yes
 
-- name: init tendermint
-  shell: tendermint init
-  tags:
-    - deploy
+  - name: start tendermint service
+    shell: systemctl start tendermint.service
+    become: yes
 
-- name: start tendermint service
-  shell: systemctl start tendermint.service
-  tags:
-    - deploy
-```
+  - name: start plantation service
+    shell: systemctl start agent.service
