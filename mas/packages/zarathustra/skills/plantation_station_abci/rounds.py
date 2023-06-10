@@ -32,7 +32,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     EventToTimeout,
 )
 
-from packages.zarathustra.skills.plantation_station.payloads import (
+from packages.zarathustra.skills.plantation_station_abci.payloads import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -47,10 +47,10 @@ from packages.zarathustra.skills.plantation_station.payloads import (
 class Event(Enum):
     """PlantationStationAbciApp Events"""
 
-    DONE = "done"
-    PROPOSALS = "proposals"
-    ROUND_TIMEOUT = "round_timeout"
     NO_PROPOSALS = "no_proposals"
+    DONE = "done"
+    ROUND_TIMEOUT = "round_timeout"
+    PROPOSALS = "proposals"
     NO_MAJORITY = "no_majority"
 
 
@@ -270,8 +270,8 @@ class ReadSensorDataRound(AbstractRound):
         raise NotImplementedError
 
 
-class FailedRound(DegenerateRound):
-    """FailedRound"""
+class ResetPlantationStationRound(DegenerateRound):
+    """ResetPlantationStationRound"""
 
 
 class TransactionSubmissionRound(DegenerateRound):
@@ -286,55 +286,55 @@ class PlantationStationAbciApp(AbciApp[Event]):
     transition_function: AbciAppTransitionFunction = {
         ObservationCollectionRound: {
             Event.DONE: FederatedLearningRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         FederatedLearningRound: {
             Event.DONE: CheckHarvestProposalRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         CheckHarvestProposalRound: {
             Event.NO_PROPOSALS: ReadSensorDataRound,
             Event.PROPOSALS: AttestProposalRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         AttestProposalRound: {
             Event.DONE: PrepareAttestationTransactionRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         PrepareAttestationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         ReadSensorDataRound: {
             Event.DONE: ControlAdjustmentRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         ControlAdjustmentRound: {
             Event.DONE: PrepareObservationTransactionRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         PrepareObservationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
-            Event.ROUND_TIMEOUT: FailedRound,
-            Event.NO_MAJORITY: FailedRound
+            Event.ROUND_TIMEOUT: ResetPlantationStationRound,
+            Event.NO_MAJORITY: ResetPlantationStationRound
         },
         TransactionSubmissionRound: {},
-        FailedRound: {}
+        ResetPlantationStationRound: {}
     }
-    final_states: Set[AppState] = {TransactionSubmissionRound, FailedRound}
+    final_states: Set[AppState] = {ResetPlantationStationRound, TransactionSubmissionRound}
     event_to_timeout: EventToTimeout = {}
     cross_period_persisted_keys: Set[str] = []
     db_pre_conditions: Dict[AppState, Set[str]] = {
         ObservationCollectionRound: [],
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
-        TransactionSubmissionRound: [],
-    	FailedRound: [],
+        ResetPlantationStationRound: [],
+    	TransactionSubmissionRound: [],
     }

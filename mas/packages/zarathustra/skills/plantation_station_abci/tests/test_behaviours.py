@@ -51,12 +51,12 @@ from packages.zarathustra.skills.plantation_station.rounds import (
     AttestProposalRound,
     CheckHarvestProposalRound,
     ControlAdjustmentRound,
-    FailedRound,
     FederatedLearningRound,
     ObservationCollectionRound,
     PrepareAttestationTransactionRound,
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
+    ResetPlantationStationRound,
     TransactionSubmissionRound,
 )
 

@@ -28,8 +28,8 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
 )
 
-from packages.zarathustra.skills.plantation_station.models import Params
-from packages.zarathustra.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station_abci.models import Params
+from packages.zarathustra.skills.plantation_station_abci.rounds import (
     SynchronizedData,
     PlantationStationAbciApp,
     AttestProposalRound,
@@ -41,7 +41,7 @@ from packages.zarathustra.skills.plantation_station.rounds import (
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
 )
-from packages.zarathustra.skills.plantation_station.rounds import (
+from packages.zarathustra.skills.plantation_station_abci.rounds import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
@@ -54,7 +54,7 @@ from packages.zarathustra.skills.plantation_station.rounds import (
 
 
 class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
-    """Base behaviour for the plantation_station skill."""
+    """Base behaviour for the plantation_station_abci skill."""
 
     @property
     def synchronized_data(self) -> SynchronizedData:
