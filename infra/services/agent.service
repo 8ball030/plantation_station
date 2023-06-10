@@ -7,5 +7,5 @@ After=network.target
 Type=simple
 User=tom
 WorkingDirectory=/home/tom/plantation_station
-ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && poetry run make run-single-agent'
+ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && make run-single-agent'
 

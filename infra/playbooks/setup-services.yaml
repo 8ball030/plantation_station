@@ -1,0 +1,30 @@
+---
+- name: 
+  hosts: all
+  tasks:
+  # copy the systemmd services  to the pi and restart them
+  - name: copy tendermint service
+    copy:
+      src: ../services/tendermint.service
+      dest: /etc/systemd/system/tendermint.service
+    become: yes
+
+  - name: copy agent service
+    copy:
+      src: ../services/agent.service
+      dest: /etc/systemd/system/agent.service
+    become: yes
+
+
+  # restart the services
+  - name: restart services
+    systemd:
+      name: "{{ item }}"
+      state: restarted
+      daemon_reload: yes
+    with_items:
+      - tendermint.service
+      - agent.service
+    become: yes
+
+
