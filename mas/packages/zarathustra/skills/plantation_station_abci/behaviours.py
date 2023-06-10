@@ -78,7 +78,7 @@ class AttestProposalBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = AttestProposalPayload(sender=sender, content=...)
+            payload = AttestProposalPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -98,7 +98,7 @@ class CheckHarvestProposalBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckHarvestProposalPayload(sender=sender, content=...)
+            payload = CheckHarvestProposalPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -118,7 +118,7 @@ class ControlAdjustmentBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ControlAdjustmentPayload(sender=sender, content=...)
+            payload = ControlAdjustmentPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -138,7 +138,7 @@ class FederatedLearningBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = FederatedLearningPayload(sender=sender, content=...)
+            payload = FederatedLearningPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -158,7 +158,7 @@ class ObservationCollectionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ObservationCollectionPayload(sender=sender, content=...)
+            payload = ObservationCollectionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -178,7 +178,7 @@ class PrepareAttestationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareAttestationTransactionPayload(sender=sender, content=...)
+            payload = PrepareAttestationTransactionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -198,7 +198,7 @@ class PrepareObservationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareObservationTransactionPayload(sender=sender, content=...)
+            payload = PrepareObservationTransactionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -218,7 +218,7 @@ class ReadSensorDataBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ReadSensorDataPayload(sender=sender, content=...)
+            payload = ReadSensorDataPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)

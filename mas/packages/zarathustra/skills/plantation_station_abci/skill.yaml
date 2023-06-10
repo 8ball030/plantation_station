@@ -7,13 +7,13 @@ license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeicuvify5jdhn3sfh7zh4yaredcjqq2kntewrgxjpie26vf6tmg2fy
-  behaviours.py: bafybeie5jqbn3fktdwvfapt456lvlqwkewz2d7thmvlsyradh67clmsfta
+  behaviours.py: bafybeidqctl5ovvqilobdxcr7lcbbzefkdog3nkndfdvhrhi5s72mznmji
   dialogues.py: bafybeiafvnzdkydxmqgy6nigxlt7nj4jx65tlh6so3yc7cryuoyr6lwhni
   fsm_specification.yaml: bafybeibu4dk45s7ugete7gpthdkpci76aliunnvmucxz6di7ycyuvq6upy
   handlers.py: bafybeihphy2gyivgr22d5yq2atovkdxavvvfm4qkwfcgnfp36hhe7gr3yq
-  models.py: bafybeiaxpopnct4bxjvoeroxfg5pvvnstdm7e4d7wwodnobjjyjqfvphua
+  models.py: bafybeibysiwuxkhbbw65gk3sqynpzlca52ymnsvkpnx2zqak7xcrvkcz3q
   payloads.py: bafybeiaqrtfhw3wxytwahj4qyhfgn6cyqmseormao5tpzvfil36uyjaeba
-  rounds.py: bafybeieky7tsykied55wwz2mc3bnlecnnwb436vtd4w7wx5kort4yrt5v4
+  rounds.py: bafybeibg2d3scdckicflvc2disw5bgd5jcojzsof7c2rnwsefahkeif5ge
   tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
   tests/test_behaviours.py: bafybeic7xndngo4itnf6lvgwqxxnqmaoxjq74x2fuuryjlnvdolglretyq
   tests/test_dialogues.py: bafybeigpahuihthdfssrw2kfi7atxrqbxpqbnrk3c57z4be7k3inghywc4
@@ -128,6 +128,17 @@ models:
       use_termination: false
       validate_timeout: 1205
     class_name: Params
+  randomness_api:
+    args:
+      api_id: cloudflare
+      headers: {}
+      method: GET
+      parameters: {}
+      response_key: null
+      response_type: dict
+      retries: 5
+      url: https://drand.cloudflare.com/public/latest
+    class_name: RandomnessApi
   requests:
     args: {}
     class_name: Requests
@@ -141,4 +152,4 @@ models:
     args: {}
     class_name: TendermintDialogues
 dependencies: {}
-is_abstract: false
+is_abstract: true

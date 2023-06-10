@@ -48,8 +48,8 @@ class PlantationAbciAppConsensusBehaviour(AbstractRoundBehaviour):
     initial_behaviour_cls = RegistrationStartupBehaviour
     abci_app_cls = PlantationAbciApp  # type: ignore
     behaviours: Set[Type[BaseBehaviour]] = {
-        *PlantationStationRoundBehaviour.behaviours,
         *AgentRegistrationRoundBehaviour.behaviours,
+        *PlantationStationRoundBehaviour.behaviours,
         *TransactionSettlementRoundBehaviour.behaviours,
         *ResetPauseABCIConsensusBehaviour.behaviours,
     }

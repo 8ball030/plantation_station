@@ -98,7 +98,10 @@ class CheckHarvestProposalRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        import random   # TODO
+        if random.random() > 0.5:
+            return synchronized_data, Event.PROPOSALS
+        return synchronized_data, Event.NO_PROPOSALS
 
     def check_payload(self, payload: CheckHarvestProposalPayload) -> None:
         """Check payload."""

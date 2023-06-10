@@ -31,8 +31,8 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_abci:0.1.0:bafybeiensifzld2d43m7hdek23qvsajzmnq2xkfibzxymu4tucugqtojpy
-- zarathustra/plantation_station_abci:0.1.0:bafybeibmkiqjzj37hq5gbdc7izoyziu5fqkemcvor5kbxxdo7toa5dgvuu
+- zarathustra/plantation_abci:0.1.0:bafybeibqr5j2pjdjkzpntz7g6navrgse4yutx2yxef4m3dv2mhmct65pgy
+- zarathustra/plantation_station_abci:0.1.0:bafybeihmfv5zj46mhwstiziygu7odpy6qwuftb3snt3m4maonhvjt7ol2e
 default_ledger: ethereum
 required_ledgers:
 - ethereum
@@ -49,7 +49,7 @@ default_connection: null
 public_id: valory/abci:0.1.0
 type: connection
 config:
-  target_skill_id: zarathustra/plantation_station_abci:0.1.0
+  target_skill_id: zarathustra/plantation_abci:0.1.0
   host: ${str:localhost}
   port: ${int:26658}
   use_tendermint: ${bool:false}
@@ -69,7 +69,7 @@ cert_requests:
   public_key: ${str:02d3a830c9d6ea1ae91936951430dee11f4662f33118b02190693be835359a9d77}
   save_path: .certs/acn_cosmos_9005.txt
 ---
-public_id: zarathustra/plantation_station_abci:0.1.0
+public_id: zarathustra/plantation_abci:0.1.0
 type: skill
 models:
   params:
