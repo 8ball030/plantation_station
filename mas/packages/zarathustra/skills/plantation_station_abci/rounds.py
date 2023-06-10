@@ -26,6 +26,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
     AbciAppTransitionFunction,
     AbstractRound,
+    VotingRound,
     AppState,
     BaseSynchronizedData,
     DegenerateRound,
@@ -68,30 +69,23 @@ class SynchronizedData(BaseSynchronizedData):
         return cast(float, self.db.get_strict("most_voted_tx_hash"))
 
 
-class AttestProposalRound(AbstractRound):
+class AttestProposalRound(VotingRound):
     """AttestProposalRound"""
 
     payload_class = AttestProposalPayload
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: AttestProposalPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: AttestProposalPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class CheckHarvestProposalRound(AbstractRound):
@@ -101,23 +95,16 @@ class CheckHarvestProposalRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: CheckHarvestProposalPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: CheckHarvestProposalPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class ControlAdjustmentRound(AbstractRound):
@@ -127,23 +114,16 @@ class ControlAdjustmentRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: ControlAdjustmentPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: ControlAdjustmentPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class FederatedLearningRound(AbstractRound):
@@ -153,23 +133,16 @@ class FederatedLearningRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: FederatedLearningPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: FederatedLearningPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class ObservationCollectionRound(AbstractRound):
@@ -179,23 +152,16 @@ class ObservationCollectionRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: ObservationCollectionPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: ObservationCollectionPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class PrepareAttestationTransactionRound(AbstractRound):
@@ -205,23 +171,16 @@ class PrepareAttestationTransactionRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class PrepareObservationTransactionRound(AbstractRound):
@@ -231,23 +190,16 @@ class PrepareObservationTransactionRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: PrepareObservationTransactionPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: PrepareObservationTransactionPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class ReadSensorDataRound(AbstractRound):
@@ -257,23 +209,16 @@ class ReadSensorDataRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: ReadSensorDataPayload) -> None:
         """Check payload."""
-        raise NotImplementedError
 
     def process_payload(self, payload: ReadSensorDataPayload) -> None:
         """Process payload."""
-        raise NotImplementedError
 
 
 class ResetPlantationStationRound(DegenerateRound):
