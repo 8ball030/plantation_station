@@ -14,7 +14,6 @@ async function main() {
     const growRegistryName = parsedData.growRegistryName;
     const growRegistrySymbol = parsedData.growRegistrySymbol;
     const baseURI = parsedData.baseURI;
-    const EOA = signers[0];
 
     let networkURL;
     if (providerName === "polygon") {
@@ -43,6 +42,7 @@ async function main() {
 
     const provider = new ethers.providers.JsonRpcProvider(networkURL);
     const signers = await ethers.getSigners();
+    const EOA = signers[0];
 
     // EOA address
     const deployer = await EOA.getAddress();
