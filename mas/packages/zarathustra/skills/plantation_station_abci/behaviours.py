@@ -52,6 +52,12 @@ from packages.zarathustra.skills.plantation_station_abci.rounds import (
     ReadSensorDataPayload,
 )
 
+DUMMY_DATA = dict(
+    signature="",
+    data_json="",
+    tx_hash="b0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9",
+)
+
 
 class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
     """Base behaviour for the plantation_station_abci skill."""
@@ -178,7 +184,8 @@ class PrepareAttestationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareAttestationTransactionPayload(sender=sender)
+            data = DUMMY_DATA
+            payload = PrepareAttestationTransactionPayload(sender=sender, **data)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -198,7 +205,8 @@ class PrepareObservationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareObservationTransactionPayload(sender=sender)
+            data = DUMMY_DATA
+            payload = PrepareObservationTransactionPayload(sender=sender, **data)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)

@@ -31,6 +31,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData,
     DegenerateRound,
     EventToTimeout,
+    CollectSameUntilThresholdRound,
     get_name,
 )
 
@@ -43,6 +44,12 @@ from packages.zarathustra.skills.plantation_station_abci.payloads import (
     PrepareAttestationTransactionPayload,
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
+)
+
+DUMMY_DATA = dict(
+    signature="",
+    data_json="",
+    most_voted_tx_hash="b0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9",
 )
 
 
@@ -98,8 +105,8 @@ class CheckHarvestProposalRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        import random   # TODO
-        if random.random() > 0.5:
+        # import random   # TODO
+        if True:
             return synchronized_data, Event.PROPOSALS
         return synchronized_data, Event.NO_PROPOSALS
 
@@ -167,23 +174,35 @@ class ObservationCollectionRound(AbstractRound):
         """Process payload."""
 
 
-class PrepareAttestationTransactionRound(AbstractRound):
+class PrepareAttestationTransactionRound(CollectSameUntilThresholdRound):
     """PrepareAttestationTransactionRound"""
 
     payload_class = PrepareAttestationTransactionPayload
-    payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
+    done_event = Event.DONE
+    no_majority_event = Event.NO_MAJORITY
+    collection_key = get_name(SynchronizedData.most_voted_tx_hash)
+    selection_key = get_name(SynchronizedData.most_voted_tx_hash)
 
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
-        """Process the end of the block."""
-        synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+    # def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
+    #     """Process the end of the block."""
 
-    def check_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
-        """Check payload."""
+    #     most_voted_tx_hash = self.context.synchronized_data.most_voted_tx_hash
+    #     payload = self.payload_class(
+    #         sender=self.context.agent_address, 
+    #         **DUMMY_DATA,
+    #         )
+    #     self.send_a2a_transaction(payload)
 
-    def process_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
-        """Process payload."""
+    #     synchronized_data = self.synchronized_data
+    #     return synchronized_data, Event.DONE
+
+    # def check_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
+    #     """Check payload."""
+
+    # def process_payload(self, payload: PrepareAttestationTransactionPayload) -> None:
+    #     """Process payload."""
+
 
 
 class PrepareObservationTransactionRound(AbstractRound):
@@ -195,14 +214,22 @@ class PrepareObservationTransactionRound(AbstractRound):
 
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
+
+        most_voted_tx_hash = self.context.synchronized_data.most_voted_tx_hash
+        payload = self.payload_class(
+            sender=self.context.agent_address, 
+            **DUMMY_DATA,
+            )
+        self.send_a2a_transaction(payload)
+
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        return synchronized_data, Event.DONE        
 
-    def check_payload(self, payload: PrepareObservationTransactionPayload) -> None:
-        """Check payload."""
+    # def check_payload(self, payload: PrepareObservationTransactionPayload) -> None:
+    #     """Check payload."""
 
-    def process_payload(self, payload: PrepareObservationTransactionPayload) -> None:
-        """Process payload."""
+    # def process_payload(self, payload: PrepareObservationTransactionPayload) -> None:
+    #     """Process payload."""
 
 
 class ReadSensorDataRound(AbstractRound):
