@@ -1,8 +1,8 @@
 {
     "dev": {
-        "skill/zarathustra/plantation_abci/0.1.0": "bafybeibqr5j2pjdjkzpntz7g6navrgse4yutx2yxef4m3dv2mhmct65pgy",
-        "skill/zarathustra/plantation_station_abci/0.1.0": "bafybeihmfv5zj46mhwstiziygu7odpy6qwuftb3snt3m4maonhvjt7ol2e",
-        "agent/zarathustra/plantation/0.1.0": "bafybeif33ztwmc7m6ujbbzeywxibisisowyfhi7kdwy4k6lu2bbn27fadu"
+        "skill/zarathustra/plantation_abci/0.1.0": "bafybeiezmdnh4avgn7322ozykasugksc22spmxct4wh2dd6im7qli74jay",
+        "skill/zarathustra/plantation_station_abci/0.1.0": "bafybeiherx2jw7w5y2hefq2hajdobqoxoahsqczyn3nb5znokjkvp2lo3y",
+        "agent/zarathustra/plantation/0.1.0": "bafybeiey6idsw6qp5xrftsscsuiucjeiv2knxsp5niftjumvs57rg3uqiq"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4",
@@ -14,7 +14,7 @@
         "skill/valory/reset_pause_abci/0.1.0": "bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony",
         "contract/valory/service_registry/0.1.0": "bafybeiaybq4z55o5tjnqhcsqhpttuldjf52yd54fkh6njngekhctvz3csi",
         "skill/valory/registration_abci/0.1.0": "bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq",
-        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm",
+        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeifyik4bmqs7gu7bamcj574gub34mybxv57fp7nhe3sgs2m2frfen4",
         "protocol/valory/contract_api/1.0.0": "bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy",
         "protocol/valory/http/1.0.0": "bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty",
         "protocol/fetchai/default/1.0.0": "bafybeig3w57l7laofhuyl7nco2lfzgtbqf4cto75edfccymugtixjqnm6y",

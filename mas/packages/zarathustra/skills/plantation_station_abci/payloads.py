@@ -19,6 +19,7 @@
 
 """This module contains the transaction payloads of the PlantationStationAbciApp."""
 
+from typing import Optional
 from dataclasses import dataclass
 
 from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
@@ -63,14 +64,18 @@ class ObservationCollectionPayload(BaseTxPayload):
 class PrepareAttestationTransactionPayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareAttestationTransactionRound."""
 
-    # TODO: define your attributes
+    signature: Optional[str]
+    data_json: Optional[str]
+    tx_hash: Optional[str]
 
 
 @dataclass(frozen=True)
 class PrepareObservationTransactionPayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareObservationTransactionRound."""
 
-    # TODO: define your attributes
+    signature: Optional[str]
+    data_json: Optional[str]
+    tx_hash: Optional[str]
 
 
 @dataclass(frozen=True)
