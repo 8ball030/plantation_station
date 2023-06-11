@@ -86,7 +86,7 @@ There are several drafts for the frontend UI created by the means of NEAR BOS:
 - https://near.org/near/widget/ComponentDetailsPage?src=kupermind.near/widget/Plantationstation2
 
 The work is ongoing, and a more careful approach should be taken to correctly transfer styles and graphics to the BOS platform.
-The last component approach is located here: [PlantationStation2](bos/Plantationstation2.tsx).
+The last component approach is located here: [PlantationStation2](https://github.com/8ball030/plantation_station/blob/main/bos/Plantationstation2.tsx).
 
 ## Acknowledgements
 As with any hackathon, especially on with so many moving parts, it there is a always a mad rush to integrate and bring the project to completion.
