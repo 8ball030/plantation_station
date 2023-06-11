@@ -21,8 +21,8 @@ skills:
 - valory/abstract_round_abci:0.1.0:bafybeia5p2un57sojlnqi4njafio6u2sfhlvr3o6hbmzy37tmcrlxkpium
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
-- valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_station_abci:0.1.0:bafybeidgf2wdyjw733qgsgi2ju67cdxcjkbo34kydsmdynk4natpmyqbau
+- valory/transaction_settlement_abci:0.1.0:bafybeifyik4bmqs7gu7bamcj574gub34mybxv57fp7nhe3sgs2m2frfen4
+- zarathustra/plantation_station_abci:0.1.0:bafybeiherx2jw7w5y2hefq2hajdobqoxoahsqczyn3nb5znokjkvp2lo3y
 behaviours:
   main:
     args: {}

@@ -20,7 +20,10 @@
 """This package contains round behaviours of PlantationStationAbciApp."""
 
 from abc import ABC
-from typing import Generator, Set, Type, cast
+from typing import Generator, Set, Type, Dict, Tuple, cast
+import copy
+import json
+import hashlib
 
 from packages.valory.skills.abstract_round_abci.base import AbstractRound
 from packages.valory.skills.abstract_round_abci.behaviours import (
@@ -51,11 +54,12 @@ from packages.zarathustra.skills.plantation_station_abci.rounds import (
     PrepareObservationTransactionPayload,
     ReadSensorDataPayload,
 )
+# from packages.valory.contracts.gnosis_safe.contract import SafeOperation
 
 DUMMY_DATA = dict(
     signature="",
     data_json="",
-    tx_hash="b0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9",
+    most_voted_tx_hash="b0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9",
 )
 
 
@@ -183,15 +187,62 @@ class PrepareAttestationTransactionBehaviour(PlantationStationBaseBehaviour):
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            sender = self.context.agent_address
-            data = DUMMY_DATA
-            payload = PrepareAttestationTransactionPayload(sender=sender, **data)
+            signature = data_json = None
+            payload_string = "0xa2c77193d1b3e9asdaaksdjaskdjalksdjaslkjdaskasdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsjdalkjsdaslkjdakjsdlkajsdaklsjdakjsdaksjdaksjdaksjdalkjsdalkjsdakjsdakljsdakjsdakjsdakjsdakjsdakjda6db44c0bfef9e3554748be5821b53696135da15a2d061c55c9"
+            tx_params = self.prepare_tx_params()
+            self.context.logger.error(f"tx_params: {tx_params}")
+            if payload_string is not None:
+                signature, data_json = yield from self.get_data_signature(tx_params)
+            # breakpoint()
+            payload = PrepareAttestationTransactionPayload(
+                self.context.agent_address, signature, data_json, payload_string
+            )
+            self.context.logger.error(f"Attestation payload: {payload}")
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
 
         self.set_done()
+
+    def get_data_signature(self, data: Dict) -> Generator[None, None, Tuple[str, str]]:
+        """Get signature for the data."""
+
+        data = copy.deepcopy(data)
+
+        data.pop("agent_address", None)  # agent address is unique, need to remove it
+        data_json = json.dumps(data, sort_keys=True)
+        self.context.logger.error(f"data_json: {data_json}")
+        data_bytes = data_json.encode("ascii")
+        self.context.logger.error(f"data_bytes: {data_bytes}")
+        hash_bytes = hashlib.sha256(data_bytes).digest()
+        self.context.logger.error(f"hash_bytes: {hash_bytes}")
+
+        signature_hex = yield from self.get_signature(
+            hash_bytes, is_deprecated_mode=True
+        )
+        # remove the leading '0x'
+        signature_hex = signature_hex[2:]
+        self.context.logger.info(f"Data signature: {signature_hex}")
+        return signature_hex, data_json
+
+    def prepare_tx_params(self, ) -> dict:
+
+        tx_params = dict(
+            safe_tx_hash="b0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9",
+            ether_value=0,
+            safe_tx_gas=40000000,
+            to_address="0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215",
+            operation=0,  # == SafeOperation.CALL.value,
+            base_gas=0,
+            safe_gas_price=0,
+            gas_token="0x0000000000000000000000000000000000000000",
+            refund_receiver=0x0000000000000000000000000000000000000000,
+            use_flashbots=True,
+            data="PrepareAttestationTransactionBehaviour",
+        )
+
+        return tx_params
 
 
 class PrepareObservationTransactionBehaviour(PlantationStationBaseBehaviour):
