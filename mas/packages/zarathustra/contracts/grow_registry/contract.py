@@ -26,11 +26,15 @@ from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
 from aea.crypto.base import LedgerApi
 
+PUBLIC_ID = PublicId.from_str("zarathustra/grow_registry:0.1.0")
+
+Address = str
+
 
 class GrowRegistryContract(Contract):
     """GrowRegistryContract"""
 
-    contract_id = PublicId.from_str("open_aea/scaffold:0.1.0")
+    contract_id = PUBLIC_ID
 
     @classmethod
     def get_raw_transaction(
@@ -82,3 +86,101 @@ class GrowRegistryContract(Contract):
         :return: the tx  # noqa: DAR202
         """
         raise NotImplementedError
+
+    @classmethod
+    def approve(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        spender: Address,
+        id: int,
+    ) -> None:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        contract_interface.functions.approve(spender, id).call()
+
+    @classmethod
+    def create(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        grow_owner: Address,
+        grower: Address,
+        grow_hash: byts,
+    ) -> int:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        grow_id = contract_interface.functions.create(
+            grow_owner, grower, grow_hash
+        ).call()
+
+        return grow_id
+
+    @classmethod
+    def propose_to_harvest(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        grow_id: int,
+    ) -> None:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        contract_interface.functions.proposeToHarvest(grow_id).call()
+
+    @classmethod
+    def harvest(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        grow_id: int,
+    ) -> None:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        contract_interface.functions.harvest(grow_id).call()
+
+    @classmethod
+    def redeem(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        grow_id: int,
+    ) -> None:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        contract_interface.functions.redeem(grow_id).call()
+
+    @classmethod
+    def update_hash(
+        cls,
+        ledger_api: LedgerApi,
+        contract_address: Address,
+        grow_id: int,
+        grow_hash: bytes,
+    ) -> None:
+
+        contract_interface = cls.get_instance(
+            ledger_api=ledger_api,
+            contract_address=contract_address,
+        )
+
+        contract_interface.functions.updateHash(grow_id, grow_hash).call()
