@@ -19,9 +19,9 @@
 
 """This package contains round behaviours of PlantationStationAbciApp."""
 
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Hashable, Optional, Type
-from dataclasses import dataclass, field
 
 import pytest
 
@@ -31,37 +31,36 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
     make_degenerate_behaviour,
 )
+from packages.valory.skills.abstract_round_abci.test_tools.base import (
+    FSMBehaviourBaseCase,
+)
 from packages.zarathustra.skills.plantation_station_abci.behaviours import (
-    PlantationStationBaseBehaviour,
-    PlantationStationRoundBehaviour,
     AttestProposalBehaviour,
     CheckHarvestProposalBehaviour,
     ControlAdjustmentBehaviour,
     FederatedLearningBehaviour,
     ObservationCollectionBehaviour,
+    PlantationStationBaseBehaviour,
+    PlantationStationRoundBehaviour,
     PrepareAttestationTransactionBehaviour,
     PrepareObservationTransactionBehaviour,
     ReadSensorDataBehaviour,
 )
 from packages.zarathustra.skills.plantation_station_abci.rounds import (
-    SynchronizedData,
-    DegenerateRound,
-    Event,
-    PlantationStationAbciApp,
     AttestProposalRound,
     CheckHarvestProposalRound,
     ControlAdjustmentRound,
+    DegenerateRound,
+    Event,
     FederatedLearningRound,
     ObservationCollectionRound,
+    PlantationStationAbciApp,
     PrepareAttestationTransactionRound,
     PrepareObservationTransactionRound,
     ReadSensorDataRound,
     ResetPlantationStationRound,
+    SynchronizedData,
     TransactionSubmissionRound,
-)
-
-from packages.valory.skills.abstract_round_abci.test_tools.base import (
-    FSMBehaviourBaseCase,
 )
 
 
@@ -255,4 +254,3 @@ class TestReadSensorDataBehaviour(BasePlantationStationTest):
         # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
-

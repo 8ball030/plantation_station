@@ -56,7 +56,9 @@ class FederatedLearningPayload(BaseTxPayload):
 class ObservationCollectionPayload(BaseTxPayload):
     """Represent a transaction payload for the ObservationCollectionRound."""
 
-    # TODO: define your attributes
+    snapshot: str
+
+
 
 
 @dataclass(frozen=True)
@@ -70,12 +72,12 @@ class PrepareAttestationTransactionPayload(BaseTxPayload):
 class PrepareObservationTransactionPayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareObservationTransactionRound."""
 
-    # TODO: define your attributes
 
 
 @dataclass(frozen=True)
 class ReadSensorDataPayload(BaseTxPayload):
     """Represent a transaction payload for the ReadSensorDataRound."""
 
-    # TODO: define your attributes
+    ipfs_hash: str
+
 

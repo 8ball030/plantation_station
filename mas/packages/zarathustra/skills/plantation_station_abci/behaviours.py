@@ -28,33 +28,34 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
 )
 
+from packages.zarathustra.skills.plantation_station_abci.sensors import Sensors
+
 from packages.zarathustra.skills.plantation_station_abci.models import Params
 from packages.zarathustra.skills.plantation_station_abci.rounds import (
-    SynchronizedData,
-    PlantationStationAbciApp,
-    AttestProposalRound,
-    CheckHarvestProposalRound,
-    ControlAdjustmentRound,
-    FederatedLearningRound,
-    ObservationCollectionRound,
-    PrepareAttestationTransactionRound,
-    PrepareObservationTransactionRound,
-    ReadSensorDataRound,
-)
-from packages.zarathustra.skills.plantation_station_abci.rounds import (
     AttestProposalPayload,
+    AttestProposalRound,
     CheckHarvestProposalPayload,
+    CheckHarvestProposalRound,
     ControlAdjustmentPayload,
+    ControlAdjustmentRound,
     FederatedLearningPayload,
+    FederatedLearningRound,
     ObservationCollectionPayload,
+    ObservationCollectionRound,
+    PlantationStationAbciApp,
     PrepareAttestationTransactionPayload,
+    PrepareAttestationTransactionRound,
     PrepareObservationTransactionPayload,
+    PrepareObservationTransactionRound,
     ReadSensorDataPayload,
+    ReadSensorDataRound,
+    SynchronizedData,
 )
 
 
 class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
     """Base behaviour for the plantation_station_abci skill."""
+    sensors: Sensors
 
     @property
     def synchronized_data(self) -> SynchronizedData:
@@ -66,6 +67,12 @@ class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
         """Return the params."""
         return cast(Params, super().params)
 
+    def setup(self) -> None:
+        """Setup behaviour."""
+        super().setup()
+        
+        self.sensors = Sensors()
+        self.context.logger.info("ReadSensorDataBehaviour: setup method called.")
 
 class AttestProposalBehaviour(PlantationStationBaseBehaviour):
     """AttestProposalBehaviour"""
@@ -78,7 +85,7 @@ class AttestProposalBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = AttestProposalPayload(sender=sender, content=...)
+            payload = AttestProposalPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -98,7 +105,7 @@ class CheckHarvestProposalBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckHarvestProposalPayload(sender=sender, content=...)
+            payload = CheckHarvestProposalPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -111,18 +118,27 @@ class ControlAdjustmentBehaviour(PlantationStationBaseBehaviour):
     """ControlAdjustmentBehaviour"""
 
     matching_round: Type[AbstractRound] = ControlAdjustmentRound
+    sensors: Sensors
+    counter: int = 0
 
-    # TODO: implement logic required to set payload content for synchronization
+    def setup(self) -> None:
+        """Setup the behaviour."""
+        super().setup()
+        self.sensors = Sensors()
+
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
+        self.context.logger.info(f"Adjusting brightness. Counter: {self.counter}")
+        self.sensors.set_led_actuator(self.counter % 10 == 0)
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ControlAdjustmentPayload(sender=sender, content=...)
+            payload = ControlAdjustmentPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
+        self.counter += 1
 
         self.set_done()
 
@@ -138,7 +154,7 @@ class FederatedLearningBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = FederatedLearningPayload(sender=sender, content=...)
+            payload = FederatedLearningPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -155,10 +171,12 @@ class ObservationCollectionBehaviour(PlantationStationBaseBehaviour):
     # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
+        breakpoint()
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ObservationCollectionPayload(sender=sender, content=...)
+            payload = ObservationCollectionPayload(sender=sender)
+            # ipfs_hash = self.ipfs_client.add_json(data)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -178,7 +196,7 @@ class PrepareAttestationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareAttestationTransactionPayload(sender=sender, content=...)
+            payload = PrepareAttestationTransactionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -198,7 +216,7 @@ class PrepareObservationTransactionBehaviour(PlantationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareObservationTransactionPayload(sender=sender, content=...)
+            payload = PrepareObservationTransactionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -212,13 +230,20 @@ class ReadSensorDataBehaviour(PlantationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = ReadSensorDataRound
 
+
     # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = ReadSensorDataPayload(sender=sender, content=...)
+            data = self.sensors.read_sensors()
+
+
+            payload = ReadSensorDataPayload(
+                sender=sender,
+                data=data
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -240,5 +265,5 @@ class PlantationStationRoundBehaviour(AbstractRoundBehaviour):
         ObservationCollectionBehaviour,
         PrepareAttestationTransactionBehaviour,
         PrepareObservationTransactionBehaviour,
-        ReadSensorDataBehaviour
+        ReadSensorDataBehaviour,
     ]

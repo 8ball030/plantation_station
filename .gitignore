@@ -1,10 +1,16 @@
 node_modules
-.env
+.*
+!/.gitignore
 coverage
 coverage.json
 typechain
-*.DS_Store
-
+**/__pycache__/
 # Hardhat files
 artifacts
 cache
+mas/packages/valory/
+mas/packages/open_aea/
+mas/packages/fetchai/
+
+**/**_private_key.txt
+

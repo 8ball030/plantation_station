@@ -6,20 +6,13 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeifsvvzooigdgdhglpe5s3o3zeyv6sqjyyyi4yzehxj6fz3777szj4
-  behaviours.py: bafybeiguvxshe3c2hwsvlpaocvdodvtctfjlbw5q24iuxma3bclpns6bwm
-  composition.py: bafybeifqbfasusgzgua2nn2bc5tbclihrkwgwd63iovw77vfpyj5amcj24
-  dialogues.py: bafybeibr3teohlw2jegfw54zycsgcgvpgu5tilxwd4rmgxhwra6gbprexa
+  __init__.py: bafybeihovsfmvdj5izcehbanz3t2uvwduxfyvza4seizfcng337ncybm5y
+  behaviours.py: bafybeidqyholcpd2pbjhgqgap54bka7cekfvg26lielcfujzzb7qu3czgq
+  composition.py: bafybeiex2doo6m77uguhor32r4jj3p4g7pmyvsldrpfteu4svy7dqpjyka
+  dialogues.py: bafybeiasfnrr5rhz52lq6ot2s3f5qpdszwnhrbpyzyx3ot3h4cvqiu32nm
   fsm_specification.yaml: bafybeig4a6vqa75ng5xj32z6tnkdbpglltt5vagaancd3anv7cyt6v3npq
-  handlers.py: bafybeicngdzpi2net2bmzrqpzak344oxn2i4d62quo6notjvw2mkp2s6fq
-  models.py: bafybeia3fek3vlifak7wprcdeix5wexafoo7fcoxl3cgoj6zmnpuady4eq
-  tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
-  tests/test_behaviours.py: bafybeiao2x6ilnrr5myzh4iyox4fklfjxdxy6ecehs3ro5nsz6vxibwzwm
-  tests/test_dialogues.py: bafybeia542odu7f742cqzucwb4qgh5dh3nrxkj5vktklxys673vq6hc7ay
-  tests/test_handlers.py: bafybeiaukg4psixpjtcedfei4n5bld7od62ajevxaldudk7omqzecmlobe
-  tests/test_models.py: bafybeibbdsyfbv3jykczkmoe3rqpwl77ynblv6rr3m77aglylf36qgmty4
-  tests/test_payloads.py: bafybeihxi76jjjpkd6uqsjgisp2w3q3bprurmdr4nwlyoa4xzdrflcyo3u
-  tests/test_rounds.py: bafybeib7ugjfrccjcpjzobfmlvhkao7erbr6anejiocqlidjtbnikk2cnq
+  handlers.py: bafybeieumk3jalhsx374cnptkxmbyjweysyeqoq6zf6lv5akufswjxo7fy
+  models.py: bafybeihto7qu32nh66z2mcxvbufgo6hggv4ywuslhvy4f64bermzj424ua
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
@@ -29,11 +22,11 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_station_abci:0.1.0:bafybeidmgd3joquw6ggwetjx46ayokrw5oepmdmwldyjrkm5fcla6rgimu
+- zarathustra/plantation_station_abci:0.1.0:bafybeigldwdieb5ubs3xof2tprtdb4qt3zamh6qrp32gbfyghltnuny4ne
 behaviours:
   main:
     args: {}
-    class_name: PlantationRoundBehaviour
+    class_name: PlantationAbciAppConsensusBehaviour
 handlers:
   abci:
     args: {}
@@ -128,8 +121,20 @@ models:
       tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
       tx_timeout: 10.0
+      use_termination: false
       validate_timeout: 1205
     class_name: Params
+  randomness_api:
+    args:
+      api_id: cloudflare
+      headers: {}
+      method: GET
+      parameters: {}
+      response_key: null
+      response_type: dict
+      retries: 5
+      url: https://drand.cloudflare.com/public/latest
+    class_name: RandomnessApi
   requests:
     args: {}
     class_name: Requests
@@ -143,4 +148,4 @@ models:
     args: {}
     class_name: TendermintDialogues
 dependencies: {}
-is_abstract: true
+is_abstract: false

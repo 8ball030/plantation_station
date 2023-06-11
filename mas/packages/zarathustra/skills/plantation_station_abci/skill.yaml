@@ -6,21 +6,22 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeicuvify5jdhn3sfh7zh4yaredcjqq2kntewrgxjpie26vf6tmg2fy
-  behaviours.py: bafybeie5jqbn3fktdwvfapt456lvlqwkewz2d7thmvlsyradh67clmsfta
-  dialogues.py: bafybeiafvnzdkydxmqgy6nigxlt7nj4jx65tlh6so3yc7cryuoyr6lwhni
+  __init__.py: bafybeido4wezkme6eulxsbyjxwgrr6xzch6cq54sjnxc22nch4qkwdvnte
+  behaviours.py: bafybeiabkax2a2slkydhbiawea5agvnqutnz3uuxrzip4tk5rucqocgg3a
+  dialogues.py: bafybeiff4p7di3fcxbrmt3mxngeaof3nkbsn6h62byrdhxkxun3raynbcu
   fsm_specification.yaml: bafybeibu4dk45s7ugete7gpthdkpci76aliunnvmucxz6di7ycyuvq6upy
-  handlers.py: bafybeihphy2gyivgr22d5yq2atovkdxavvvfm4qkwfcgnfp36hhe7gr3yq
-  models.py: bafybeiaxpopnct4bxjvoeroxfg5pvvnstdm7e4d7wwodnobjjyjqfvphua
-  payloads.py: bafybeiaqrtfhw3wxytwahj4qyhfgn6cyqmseormao5tpzvfil36uyjaeba
-  rounds.py: bafybeiapcymes3fut6cfmkotr3awu46d5zargbfvczcxkkg4lmhr6sd6ea
-  tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
-  tests/test_behaviours.py: bafybeic7xndngo4itnf6lvgwqxxnqmaoxjq74x2fuuryjlnvdolglretyq
+  handlers.py: bafybeia53oxfii66dpr65soxwf7ingf62yc2h54a47ffkbzzmsocax6ddu
+  models.py: bafybeiehjbzaqafj5i7xzhlfmk46yzmy4vnuxdlj7leuydehzbjnhzcgvq
+  payloads.py: bafybeih7wjsun65azw6jrcjcelcjn2rzpyahicyxelw4hzv675nw4wzke4
+  rounds.py: bafybeic4td7r4muja5dmydmxezf4cxq3am6ezc6hflaa5qecnbddmjh4oy
+  sensors.py: bafybeihtljtv4nlxgayibcweukoskcihqmdiucj3pprxuddzhemyur7qgu
+  tests/__init__.py: bafybeic6evwhxdwtdjvz7xv3dqqhdhd7uxyr55xhymeiqfe4ga7mfdptxm
+  tests/test_behaviours.py: bafybeiagrnycoxnwrlu5e2x6n5qwuur4mxviij23jke4fudai47zr32y7q
   tests/test_dialogues.py: bafybeigpahuihthdfssrw2kfi7atxrqbxpqbnrk3c57z4be7k3inghywc4
-  tests/test_handlers.py: bafybeiamgsud2feos7uandqwbn6do2op336xrdkv5lx2s4wxgihifmusci
-  tests/test_models.py: bafybeig3s35qfqm7hgl4ksaf4mehovzkzvnivnfrq2pli7fng2ds4e6wze
-  tests/test_payloads.py: bafybeihipjz5wdopndluocami6nc3dgn75jbvjgufybeltyl7tc7x5twce
-  tests/test_rounds.py: bafybeibotmree2nqwt5eyh4bxvc23jj63a4njd2ql4henfu3l44owxbn74
+  tests/test_handlers.py: bafybeih4sqtgvvlsu3caoygmrfaqv4bswiaab4qfkkfzpj7fvomikbgaby
+  tests/test_models.py: bafybeiclf32suzpkfderw2xsvapgcf2l4fyesruziyfch6gcc7pehrerxi
+  tests/test_payloads.py: bafybeih3yp33kfz4jhpcdgl7kkvlhzrt7ubncccuyd3koqa23frfnpexoy
+  tests/test_rounds.py: bafybeihd6tuj3hq53k7pfywynxqqjlwpa453wrs2iz6y6gsf4uazmqyum4
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
@@ -128,6 +129,17 @@ models:
       use_termination: false
       validate_timeout: 1205
     class_name: Params
+  randomness_api:
+    args:
+      api_id: cloudflare
+      headers: {}
+      method: GET
+      parameters: {}
+      response_key: null
+      response_type: dict
+      retries: 5
+      url: https://drand.cloudflare.com/public/latest
+    class_name: RandomnessApi
   requests:
     args: {}
     class_name: Requests
@@ -141,4 +153,4 @@ models:
     args: {}
     class_name: TendermintDialogues
 dependencies: {}
-is_abstract: false
+is_abstract: true

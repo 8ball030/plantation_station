@@ -3,6 +3,7 @@ clean: clean-build clean-pyc clean-test clean-docs
 
 .PHONY: clean-build
 clean-build:
+	rm -rf plantation
 	rm -fr deployments/build
 	rm -fr build/
 	rm -fr dist/
@@ -69,3 +70,6 @@ run-single-agent:
 
 run-mas:
 	bash scripts/start_multi_agent.sh
+
+start-tm-node:
+	sudo rm -r ~/.tendermint/data/ ; sudo tendermint init validator && sudo cp -r /root/.tendermint ~/  && sudo chown -R $(shell whoami):$(shell whoami) ~/.tendermint/ && tendermint start

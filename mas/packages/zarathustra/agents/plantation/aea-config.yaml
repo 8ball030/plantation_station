@@ -16,6 +16,7 @@ contracts:
 - valory/gnosis_safe:0.1.0:bafybeib7yuiaggfibae3afoxugskxgf6aojgr7erfveizhp2jzqi4llg7i
 - valory/gnosis_safe_proxy_factory:0.1.0:bafybeiacuzzvjhuyjdvvb4bzj473nim4gtxqxh7qvzp2ytvhg66wvovqka
 - valory/service_registry:0.1.0:bafybeiaybq4z55o5tjnqhcsqhpttuldjf52yd54fkh6njngekhctvz3csi
+- zarathustra/grow_registry:0.1.0:bafybeicq3xykncnmip3z43nlyujxsxjn6qhqrzaquv6bk7ucfnfg7ubimu
 protocols:
 - open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
 - valory/abci:0.1.0:bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4
@@ -31,8 +32,8 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_abci:0.1.0:bafybeiglaui3wie4bumehk3kgo3dchlca7rwfvlvoeobya346jce2bxwva
-- zarathustra/plantation_station_abci:0.1.0:bafybeidmgd3joquw6ggwetjx46ayokrw5oepmdmwldyjrkm5fcla6rgimu
+- zarathustra/plantation_abci:0.1.0:bafybeihjf7ep4yeaub4kjjjfqmytu3ua7lbatn5bo52a774tlo4nfnwnuu
+- zarathustra/plantation_station_abci:0.1.0:bafybeigldwdieb5ubs3xof2tprtdb4qt3zamh6qrp32gbfyghltnuny4ne
 default_ledger: ethereum
 required_ledgers:
 - ethereum
@@ -49,7 +50,7 @@ default_connection: null
 public_id: valory/abci:0.1.0
 type: connection
 config:
-  target_skill_id: zarathustra/plantation_station_abci:0.1.0
+  target_skill_id: zarathustra/plantation_abci:0.1.0
   host: ${str:localhost}
   port: ${int:26658}
   use_tendermint: ${bool:false}
@@ -69,7 +70,7 @@ cert_requests:
   public_key: ${str:02d3a830c9d6ea1ae91936951430dee11f4662f33118b02190693be835359a9d77}
   save_path: .certs/acn_cosmos_9005.txt
 ---
-public_id: zarathustra/plantation_station_abci:0.1.0
+public_id: zarathustra/plantation_abci:0.1.0
 type: skill
 models:
   params:

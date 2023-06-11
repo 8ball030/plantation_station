@@ -1,0 +1,20 @@
+---
+- name: Configure Raspberry Pi keys
+  hosts: all
+  tasks:
+  - name: Ensure ethereum keys directory
+    file:
+      path: /home/tom/.keys
+      state: directory
+      owner: tom
+      group: tom
+  
+  - name: Copy key from host
+    copy:
+      src: ../keys/{{ item }}
+      dest: ~/.keys/{{ item }}
+      owner: tom
+      group: tom
+      mode: 0600
+    with_items:
+      - ethereum_private_key.txt

@@ -1,0 +1,99 @@
+---
+- name: Configure Raspberry Pi.
+  hosts: all
+  tasks:
+
+  - name: Ensure apt cache is up to date
+    apt:
+      update_cache: yes
+    become: true
+  
+  - name: Ensure Git
+    apt:
+      name: git
+      state: present
+    become: true
+
+  - name: Build Essentials
+    apt:
+      name: build-essential
+      state: present
+    become: true
+
+  - name: Ensure libffi-dev
+    apt:
+      name: libffi-dev
+      state: present
+    become: true  
+
+  - name: Ensure libtool
+    apt:
+      name: libtool
+      state: present
+    become: true
+
+  - name: Ensure Python3 & Pip
+    apt:
+      name: python3-pip
+      state: present
+    become: true
+
+  - name: Ensure libssl-dev
+    apt:
+      name: libssl-dev
+      state: present
+    become: true
+
+  - name: Ensure libatlas-base-dev
+    apt:
+      name: libatlas-base-dev
+      state: present
+    become: true
+
+  - name: Ensure autoconf
+    apt:
+      name: autoconf
+      state: present
+    become: true
+
+  # upgrade pip
+  - name: Upgrade pip
+    pip:
+      name: pip
+      state: latest
+    become: true
+
+  # cmake
+  - name: Ensure cmake
+    apt:
+      name: cmake
+      state: present
+    become: true
+
+  - name: Ensure libcap-dev
+    apt:
+      name: libcap-dev
+      state: present
+    become: true
+
+  - name: Ensure libgl1-mesa-glx
+    apt:
+      name: libgl1-mesa-glx
+      state: present
+
+  - name: Ensure libcamera-apps
+    apt:
+      name: libcamera-apps
+      state: present
+    become: true
+
+  - name: Install gpio zero
+    apt:
+      name: python3-gpiozero
+      state: present
+    become: true
+  
+  - name: Ensure repo is checked out
+    git:
+      repo: https://github.com/8ball030/plantation_station.git
+      dest: "{{ ansible_env.HOME }}/plantation_station"

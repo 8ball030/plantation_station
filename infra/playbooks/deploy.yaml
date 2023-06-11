@@ -1,0 +1,48 @@
+---
+
+- name: Deploy Plantation Station
+  hosts: all
+  tasks:
+  - name: checkout from the directory and pull the latest changes
+    git:
+      repo: https://github.com/8ball030/plantation_station.git
+      dest: ~/plantation_station
+      update: yes
+      force: true
+
+
+
+  - name: sync packages
+  # in directory ~/plantation_station
+
+    shell: cd ~/plantation_station/mas && /usr/local/bin/poetry run autonomy packages sync
+
+
+  - name: stop plantation service
+    shell: systemctl stop agent.service
+    become: yes
+
+  - name: stop tendermint service
+    shell: systemctl stop tendermint.service
+    become: yes
+
+  - name: remove tendermint directory
+    shell: rm -rf ~/.tendermint
+
+  - name: remove agent directory
+    shell: rm -rf ~/plantation_station/mas/plantation
+
+  - name: init tendermint
+    shell: tendermint init
+    become: yes
+
+  - name: start tendermint service
+    shell: systemctl start tendermint.service
+    become: yes
+
+  - name: start plantation service
+    shell: systemctl start agent.service
+    become: yes
+
+
+  # we know its working when the tcp tcp://127.0.0.1:26658 is open

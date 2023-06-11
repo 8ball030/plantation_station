@@ -1,0 +1,11 @@
+## tendermint.service
+[Unit]
+Description=Tendermint Service
+After=network.target
+
+[Service]
+Type=simple
+User=tom
+WorkingDirectory=/home/tom/plantation_station
+ExecStart=/usr/bin/bash -c 'source /home/tom/.bashrc && sudo rm -r ~/.tendermint/data/ ; sudo tendermint init validator && sudo cp -r /root/.tendermint ~/  && sudo chown -R $(whoami):$(whoami) ~/.tendermint/ && tendermint start'
+
