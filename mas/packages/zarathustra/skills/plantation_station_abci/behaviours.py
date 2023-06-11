@@ -32,26 +32,24 @@ from packages.zarathustra.skills.plantation_station_abci.sensors import Sensors
 
 from packages.zarathustra.skills.plantation_station_abci.models import Params
 from packages.zarathustra.skills.plantation_station_abci.rounds import (
-    SynchronizedData,
-    PlantationStationAbciApp,
-    AttestProposalRound,
-    CheckHarvestProposalRound,
-    ControlAdjustmentRound,
-    FederatedLearningRound,
-    ObservationCollectionRound,
-    PrepareAttestationTransactionRound,
-    PrepareObservationTransactionRound,
-    ReadSensorDataRound,
-)
-from packages.zarathustra.skills.plantation_station_abci.rounds import (
     AttestProposalPayload,
+    AttestProposalRound,
     CheckHarvestProposalPayload,
+    CheckHarvestProposalRound,
     ControlAdjustmentPayload,
+    ControlAdjustmentRound,
     FederatedLearningPayload,
+    FederatedLearningRound,
     ObservationCollectionPayload,
+    ObservationCollectionRound,
+    PlantationStationAbciApp,
     PrepareAttestationTransactionPayload,
+    PrepareAttestationTransactionRound,
     PrepareObservationTransactionPayload,
+    PrepareObservationTransactionRound,
     ReadSensorDataPayload,
+    ReadSensorDataRound,
+    SynchronizedData,
 )
 
 
@@ -266,5 +264,5 @@ class PlantationStationRoundBehaviour(AbstractRoundBehaviour):
         ObservationCollectionBehaviour,
         PrepareAttestationTransactionBehaviour,
         PrepareObservationTransactionBehaviour,
-        ReadSensorDataBehaviour
+        ReadSensorDataBehaviour,
     ]

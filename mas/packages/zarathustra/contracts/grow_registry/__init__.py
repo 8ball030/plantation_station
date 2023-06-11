@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2023 Valory AG
+#   Copyright 2023 zarathustra
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,10 +17,4 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the handlers.py module of the PlantationStation."""
-
-import packages.zarathustra.skills.plantation_station_abci.handlers  # noqa
-
-
-def test_import() -> None:
-    """Test that the 'handlers.py' of the PlantationStation can be imported."""
+"""This module contains the support resources for the scaffold contract."""

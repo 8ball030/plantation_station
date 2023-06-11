@@ -18,10 +18,10 @@ fingerprint:
   tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
   tests/test_behaviours.py: bafybeic7xndngo4itnf6lvgwqxxnqmaoxjq74x2fuuryjlnvdolglretyq
   tests/test_dialogues.py: bafybeigpahuihthdfssrw2kfi7atxrqbxpqbnrk3c57z4be7k3inghywc4
-  tests/test_handlers.py: bafybeiamgsud2feos7uandqwbn6do2op336xrdkv5lx2s4wxgihifmusci
-  tests/test_models.py: bafybeig3s35qfqm7hgl4ksaf4mehovzkzvnivnfrq2pli7fng2ds4e6wze
-  tests/test_payloads.py: bafybeihipjz5wdopndluocami6nc3dgn75jbvjgufybeltyl7tc7x5twce
-  tests/test_rounds.py: bafybeibotmree2nqwt5eyh4bxvc23jj63a4njd2ql4henfu3l44owxbn74
+  tests/test_handlers.py: bafybeih4sqtgvvlsu3caoygmrfaqv4bswiaab4qfkkfzpj7fvomikbgaby
+  tests/test_models.py: bafybeiclf32suzpkfderw2xsvapgcf2l4fyesruziyfch6gcc7pehrerxi
+  tests/test_payloads.py: bafybeih3yp33kfz4jhpcdgl7kkvlhzrt7ubncccuyd3koqa23frfnpexoy
+  tests/test_rounds.py: bafybeihd6tuj3hq53k7pfywynxqqjlwpa453wrs2iz6y6gsf4uazmqyum4
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []

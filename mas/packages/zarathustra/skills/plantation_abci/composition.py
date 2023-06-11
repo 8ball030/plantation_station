@@ -23,12 +23,6 @@ from packages.valory.skills.abstract_round_abci.abci_app_chain import (
     AbciAppTransitionMapping,
     chain,
 )
-from packages.zarathustra.skills.plantation_station_abci.rounds import (
-    ObservationCollectionRound,
-    TransactionSubmissionRound,
-    ResetPlantationStationRound,
-    PlantationStationAbciApp,
-)
 from packages.valory.skills.registration_abci.rounds import (
     AgentRegistrationAbciApp,
     FinishedRegistrationRound,
@@ -46,13 +40,18 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
     RandomnessTransactionSubmissionRound,
     TransactionSubmissionAbciApp,
 )
-
+from packages.zarathustra.skills.plantation_station_abci.rounds import (
+    ObservationCollectionRound,
+    PlantationStationAbciApp,
+    ResetPlantationStationRound,
+    TransactionSubmissionRound,
+)
 
 abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedRegistrationRound: ObservationCollectionRound,
     TransactionSubmissionRound: RandomnessTransactionSubmissionRound,
     ResetPlantationStationRound: ResetAndPauseRound,
-    FinishedTransactionSubmissionRound: ResetAndPauseRound, 
+    FinishedTransactionSubmissionRound: ResetAndPauseRound,
     FailedRound: ResetAndPauseRound,
     FinishedResetAndPauseRound: ObservationCollectionRound,
     FinishedResetAndPauseErrorRound: RegistrationRound,
