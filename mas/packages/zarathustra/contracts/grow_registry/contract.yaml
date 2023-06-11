@@ -8,7 +8,7 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeifzs22oiwtftrlgrf5ze74x4kk5has2i46x5tpk6o3ivcce6vz44y
   build/GrowRegistry.json: bafybeia342pmrppld7p3dk2bznxtryaur76t4y2fw7alcce2ttdmvhpfpe
-  contract.py: bafybeihesb4k3u5h7gzt7bap6xyle2qe4iqoutpqwpew2duop55gu6svqi
+  contract.py: bafybeifwtqhubuzvghtmssebv5esf3fs5la4ym7apzbhoop45s7jjkykne
 fingerprint_ignore_patterns: []
 class_name: GrowRegistryContract
 contract_interface_paths: {}

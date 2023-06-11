@@ -6,7 +6,7 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeiaxepmetsmjrn4cvlfhqwr3f5he4wtvcd4ruzwu7mh5z2ti3jbwee
+  __init__.py: bafybeihovsfmvdj5izcehbanz3t2uvwduxfyvza4seizfcng337ncybm5y
   behaviours.py: bafybeidqyholcpd2pbjhgqgap54bka7cekfvg26lielcfujzzb7qu3czgq
   composition.py: bafybeiex2doo6m77uguhor32r4jj3p4g7pmyvsldrpfteu4svy7dqpjyka
   dialogues.py: bafybeiasfnrr5rhz52lq6ot2s3f5qpdszwnhrbpyzyx3ot3h4cvqiu32nm
@@ -22,7 +22,7 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeifyik4bmqs7gu7bamcj574gub34mybxv57fp7nhe3sgs2m2frfen4
-- zarathustra/plantation_station_abci:0.1.0:bafybeier5raij4jznvgjmst3jjlqvkmgcfyf3rgqbaphlbbeduykfucybe
+- zarathustra/plantation_station_abci:0.1.0:bafybeicpqdrfp6zen6upcrzucjusof74dayx444avruebr2muwqop3zimy
 behaviours:
   main:
     args: {}

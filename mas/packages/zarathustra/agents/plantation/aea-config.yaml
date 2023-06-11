@@ -16,6 +16,7 @@ contracts:
 - valory/gnosis_safe:0.1.0:bafybeib7yuiaggfibae3afoxugskxgf6aojgr7erfveizhp2jzqi4llg7i
 - valory/gnosis_safe_proxy_factory:0.1.0:bafybeiacuzzvjhuyjdvvb4bzj473nim4gtxqxh7qvzp2ytvhg66wvovqka
 - valory/service_registry:0.1.0:bafybeiaybq4z55o5tjnqhcsqhpttuldjf52yd54fkh6njngekhctvz3csi
+- zarathustra/grow_registry:0.1.0:bafybeicq3xykncnmip3z43nlyujxsxjn6qhqrzaquv6bk7ucfnfg7ubimu
 protocols:
 - open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
 - valory/abci:0.1.0:bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4
@@ -31,8 +32,8 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeifyik4bmqs7gu7bamcj574gub34mybxv57fp7nhe3sgs2m2frfen4
-- zarathustra/plantation_abci:0.1.0:bafybeigqpwarocmaybnpi4vrj2ftzzlz2mu7yz6k56rzdzkj2g6xgdrfoq
-- zarathustra/plantation_station_abci:0.1.0:bafybeier5raij4jznvgjmst3jjlqvkmgcfyf3rgqbaphlbbeduykfucybe
+- zarathustra/plantation_abci:0.1.0:bafybeihlcrv4onra4s6i2du4kcdtyucaibam7a5bffr5d5pyan22xahz3y
+- zarathustra/plantation_station_abci:0.1.0:bafybeicpqdrfp6zen6upcrzucjusof74dayx444avruebr2muwqop3zimy
 default_ledger: ethereum
 required_ledgers:
 - ethereum

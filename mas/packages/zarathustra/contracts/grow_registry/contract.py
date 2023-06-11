@@ -19,14 +19,20 @@
 
 """This module contains the GrowRegistry contract interface."""
 
+import logging
 from typing import Any
 
 from aea.common import JSONLike
 from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
-from aea.crypto.base import LedgerApi
+from aea_ledger_ethereum import EthereumApi, LedgerApi
+from web3.types import TxParams
 
 PUBLIC_ID = PublicId.from_str("zarathustra/grow_registry:0.1.0")
+
+_logger = logging.getLogger(
+    f"aea.packages.{PUBLIC_ID.author}.contracts.{PUBLIC_ID.name}.contract"
+)
 
 Address = str
 
@@ -40,51 +46,21 @@ class GrowRegistryContract(Contract):
     def get_raw_transaction(
         cls, ledger_api: LedgerApi, contract_address: str, **kwargs: Any
     ) -> JSONLike:
-        """
-        Handler method for the 'GET_RAW_TRANSACTION' requests.
-
-        Implement this method in the sub class if you want
-        to handle the contract requests manually.
-
-        :param ledger_api: the ledger apis.
-        :param contract_address: the contract address.
-        :param kwargs: the keyword arguments.
-        :return: the tx  # noqa: DAR202
-        """
+        """Get raw transaction."""
         raise NotImplementedError
 
     @classmethod
     def get_raw_message(
         cls, ledger_api: LedgerApi, contract_address: str, **kwargs: Any
     ) -> bytes:
-        """
-        Handler method for the 'GET_RAW_MESSAGE' requests.
-
-        Implement this method in the sub class if you want
-        to handle the contract requests manually.
-
-        :param ledger_api: the ledger apis.
-        :param contract_address: the contract address.
-        :param kwargs: the keyword arguments.
-        :return: the tx  # noqa: DAR202
-        """
+        """Get raw message."""
         raise NotImplementedError
 
     @classmethod
     def get_state(
         cls, ledger_api: LedgerApi, contract_address: str, **kwargs: Any
     ) -> JSONLike:
-        """
-        Handler method for the 'GET_STATE' requests.
-
-        Implement this method in the sub class if you want
-        to handle the contract requests manually.
-
-        :param ledger_api: the ledger apis.
-        :param contract_address: the contract address.
-        :param kwargs: the keyword arguments.
-        :return: the tx  # noqa: DAR202
-        """
+        """Get state."""
         raise NotImplementedError
 
     @classmethod
@@ -110,7 +86,7 @@ class GrowRegistryContract(Contract):
         contract_address: Address,
         grow_owner: Address,
         grower: Address,
-        grow_hash: byts,
+        grow_hash: bytes,
     ) -> int:
 
         contract_interface = cls.get_instance(
@@ -176,11 +152,56 @@ class GrowRegistryContract(Contract):
         contract_address: Address,
         grow_id: int,
         grow_hash: bytes,
-    ) -> None:
+    ) -> JSONLike:
+        """
+        Get the encoded params for `updateHash`.
 
-        contract_interface = cls.get_instance(
-            ledger_api=ledger_api,
-            contract_address=contract_address,
+        :param ledger_api: ledger API object.
+        :param contract_address: address of the NFT
+        :param grow_id: grow ID
+        :param grow_hash: grow hash
+        :param sender_address: The address of the tx sender.
+        :param gas: Gas
+        :param gas_price: Gas Price
+        :param max_fee_per_gas: max
+        :param max_priority_fee_per_gas: max
+        :return: the raw transaction
+        """
+        eth_api = cast(EthereumApi, ledger_api)
+        contract = cls.get_instance(ledger_api, contract_address)
+        tx_parameters = TxParams()
+
+        if gas_price is not None:
+            tx_parameters["gasPrice"] = Wei(gas_price)  # pragma: nocover
+
+        if max_fee_per_gas is not None:
+            tx_parameters["maxFeePerGas"] = Wei(max_fee_per_gas)  # pragma: nocover
+
+        if max_priority_fee_per_gas is not None:
+            tx_parameters["maxPriorityFeePerGas"] = Wei(  # pragma: nocover
+                max_priority_fee_per_gas
+            )
+
+        if (
+            gas_price is None
+            and max_fee_per_gas is None
+            and max_priority_fee_per_gas is None
+        ):
+            tx_parameters.update(eth_api.try_get_gas_pricing())
+
+        if gas is not None:
+            tx_parameters["gas"] = Wei(gas)
+
+        nonce = eth_api._try_get_transaction_count(  # pylint: disable=protected-access
+            sender_address
+        )
+        tx_parameters["nonce"] = Nonce(nonce)
+
+        if nonce is None:
+            raise ValueError("No nonce returned.")  # pragma: nocover
+
+        raw_tx = contract.functions.updateHash(grow_id, grow_hash).buildTransaction(
+            tx_params
         )
 
-        contract_interface.functions.updateHash(grow_id, grow_hash).call()
+        return raw_tx
