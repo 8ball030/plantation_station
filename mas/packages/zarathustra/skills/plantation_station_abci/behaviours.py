@@ -55,6 +55,7 @@ from packages.zarathustra.skills.plantation_station_abci.rounds import (
 
 class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
     """Base behaviour for the plantation_station_abci skill."""
+    sensors: Sensors
 
     @property
     def synchronized_data(self) -> SynchronizedData:
@@ -66,6 +67,12 @@ class PlantationStationBaseBehaviour(BaseBehaviour, ABC):
         """Return the params."""
         return cast(Params, super().params)
 
+    def setup(self) -> None:
+        """Setup behaviour."""
+        super().setup()
+        
+        self.sensors = Sensors()
+        self.context.logger.info("ReadSensorDataBehaviour: setup method called.")
 
 class AttestProposalBehaviour(PlantationStationBaseBehaviour):
     """AttestProposalBehaviour"""
@@ -164,10 +171,12 @@ class ObservationCollectionBehaviour(PlantationStationBaseBehaviour):
     # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
+        breakpoint()
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
             payload = ObservationCollectionPayload(sender=sender)
+            # ipfs_hash = self.ipfs_client.add_json(data)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -220,14 +229,7 @@ class ReadSensorDataBehaviour(PlantationStationBaseBehaviour):
     """ReadSensorDataBehaviour"""
 
     matching_round: Type[AbstractRound] = ReadSensorDataRound
-    sensors: Sensors
 
-    def setup(self) -> None:
-        """Setup behaviour."""
-        super().setup()
-        
-        self.sensors = Sensors()
-        self.context.logger.info("ReadSensorDataBehaviour: setup method called.")
 
     # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
@@ -237,11 +239,10 @@ class ReadSensorDataBehaviour(PlantationStationBaseBehaviour):
             sender = self.context.agent_address
             data = self.sensors.read_sensors()
 
-            # ipfs_hash = self.ipfs_client.add_json(data)
 
             payload = ReadSensorDataPayload(
                 sender=sender,
-                ipfs_hash=data
+                data=data
             )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():

@@ -32,8 +32,8 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_abci:0.1.0:bafybeifxhz3oh43p7wwy4jf37irnro2wdwof2xsn3cdhhhxqivfr5liacu
-- zarathustra/plantation_station_abci:0.1.0:bafybeidqpy3pm3cpgxal2oofbkirevlykiexxzc7arc6s6i7mis6i6sbl4
+- zarathustra/plantation_abci:0.1.0:bafybeihjf7ep4yeaub4kjjjfqmytu3ua7lbatn5bo52a774tlo4nfnwnuu
+- zarathustra/plantation_station_abci:0.1.0:bafybeigldwdieb5ubs3xof2tprtdb4qt3zamh6qrp32gbfyghltnuny4ne
 default_ledger: ethereum
 required_ledgers:
 - ethereum
