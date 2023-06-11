@@ -1,4 +1,5 @@
 audits/*
+bos/*
 coverage*
 frontend/*
 lib/*
