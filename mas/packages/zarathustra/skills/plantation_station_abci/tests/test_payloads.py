@@ -19,14 +19,14 @@
 
 """This package contains payload tests for the PlantationStationAbciApp."""
 
-from typing import Type, Hashable
 from dataclasses import dataclass
+from typing import Hashable, Type
 
 import pytest
 
 from packages.zarathustra.skills.plantation_station_abci.payloads import (
-    BaseTxPayload,
     AttestProposalPayload,
+    BaseTxPayload,
     CheckHarvestProposalPayload,
     ControlAdjustmentPayload,
     FederatedLearningPayload,
@@ -54,4 +54,3 @@ def test_payloads(test_case: PayloadTestCase) -> None:
     payload = test_case.payload_cls(sender="sender", content=test_case.content)
     assert payload.sender == "sender"
     assert payload.from_json(payload.json) == payload
-

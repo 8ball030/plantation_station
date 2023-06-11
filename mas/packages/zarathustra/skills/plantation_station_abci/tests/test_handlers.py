@@ -24,4 +24,3 @@ import packages.zarathustra.skills.plantation_station_abci.handlers  # noqa
 
 def test_import() -> None:
     """Test that the 'handlers.py' of the PlantationStation can be imported."""
-

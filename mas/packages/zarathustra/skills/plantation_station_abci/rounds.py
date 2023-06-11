@@ -26,14 +26,13 @@ from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
     AbciAppTransitionFunction,
     AbstractRound,
-    VotingRound,
     AppState,
     BaseSynchronizedData,
     DegenerateRound,
     EventToTimeout,
+    VotingRound,
     get_name,
 )
-
 from packages.zarathustra.skills.plantation_station_abci.payloads import (
     AttestProposalPayload,
     CheckHarvestProposalPayload,
@@ -98,7 +97,8 @@ class CheckHarvestProposalRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        import random   # TODO
+        import random  # TODO
+
         if random.random() > 0.5:
             return synchronized_data, Event.PROPOSALS
         return synchronized_data, Event.NO_PROPOSALS
@@ -241,48 +241,51 @@ class PlantationStationAbciApp(AbciApp[Event]):
         ObservationCollectionRound: {
             Event.DONE: FederatedLearningRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         FederatedLearningRound: {
             Event.DONE: CheckHarvestProposalRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         CheckHarvestProposalRound: {
             Event.NO_PROPOSALS: ReadSensorDataRound,
             Event.PROPOSALS: AttestProposalRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         AttestProposalRound: {
             Event.DONE: PrepareAttestationTransactionRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         PrepareAttestationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         ReadSensorDataRound: {
             Event.DONE: ControlAdjustmentRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         ControlAdjustmentRound: {
             Event.DONE: PrepareObservationTransactionRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         PrepareObservationTransactionRound: {
             Event.DONE: TransactionSubmissionRound,
             Event.ROUND_TIMEOUT: ResetPlantationStationRound,
-            Event.NO_MAJORITY: ResetPlantationStationRound
+            Event.NO_MAJORITY: ResetPlantationStationRound,
         },
         TransactionSubmissionRound: {},
-        ResetPlantationStationRound: {}
+        ResetPlantationStationRound: {},
     }
-    final_states: Set[AppState] = {ResetPlantationStationRound, TransactionSubmissionRound}
+    final_states: Set[AppState] = {
+        ResetPlantationStationRound,
+        TransactionSubmissionRound,
+    }
     event_to_timeout: EventToTimeout = {}
     cross_period_persisted_keys: Set[str] = set()
     db_pre_conditions: Dict[AppState, Set[str]] = {

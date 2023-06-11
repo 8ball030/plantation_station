@@ -26,10 +26,6 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
 )
-from packages.zarathustra.skills.plantation_abci.composition import PlantationAbciApp
-from packages.zarathustra.skills.plantation_station_abci.behaviours import (
-    PlantationStationRoundBehaviour,
-)
 from packages.valory.skills.registration_abci.behaviours import (
     AgentRegistrationRoundBehaviour,
     RegistrationStartupBehaviour,
@@ -39,6 +35,10 @@ from packages.valory.skills.reset_pause_abci.behaviours import (
 )
 from packages.valory.skills.transaction_settlement_abci.behaviours import (
     TransactionSettlementRoundBehaviour,
+)
+from packages.zarathustra.skills.plantation_abci.composition import PlantationAbciApp
+from packages.zarathustra.skills.plantation_station_abci.behaviours import (
+    PlantationStationRoundBehaviour,
 )
 
 
