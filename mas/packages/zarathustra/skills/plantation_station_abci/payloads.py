@@ -77,5 +77,5 @@ class PrepareObservationTransactionPayload(BaseTxPayload):
 class ReadSensorDataPayload(BaseTxPayload):
     """Represent a transaction payload for the ReadSensorDataRound."""
 
-    # TODO: define your attributes
+    ipfs_hash: str
 

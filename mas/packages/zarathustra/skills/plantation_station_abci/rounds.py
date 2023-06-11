@@ -99,7 +99,7 @@ class CheckHarvestProposalRound(AbstractRound):
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
         import random   # TODO
-        if random.random() > 0.5:
+        if random.random() > 0.9:
             return synchronized_data, Event.PROPOSALS
         return synchronized_data, Event.NO_PROPOSALS
 
