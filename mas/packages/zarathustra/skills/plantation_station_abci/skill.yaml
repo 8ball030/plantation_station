@@ -7,13 +7,14 @@ license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: bafybeicuvify5jdhn3sfh7zh4yaredcjqq2kntewrgxjpie26vf6tmg2fy
-  behaviours.py: bafybeidqctl5ovvqilobdxcr7lcbbzefkdog3nkndfdvhrhi5s72mznmji
+  behaviours.py: bafybeigunt4b4apamcxikkkqte6cxelhsuptun75fhm4eywtzs3warh7y4
   dialogues.py: bafybeiafvnzdkydxmqgy6nigxlt7nj4jx65tlh6so3yc7cryuoyr6lwhni
   fsm_specification.yaml: bafybeibu4dk45s7ugete7gpthdkpci76aliunnvmucxz6di7ycyuvq6upy
   handlers.py: bafybeihphy2gyivgr22d5yq2atovkdxavvvfm4qkwfcgnfp36hhe7gr3yq
   models.py: bafybeibysiwuxkhbbw65gk3sqynpzlca52ymnsvkpnx2zqak7xcrvkcz3q
-  payloads.py: bafybeiaqrtfhw3wxytwahj4qyhfgn6cyqmseormao5tpzvfil36uyjaeba
-  rounds.py: bafybeibg2d3scdckicflvc2disw5bgd5jcojzsof7c2rnwsefahkeif5ge
+  payloads.py: bafybeianwtqvvi6ex4mgjwgll3hfinbar7svigoffmok6uo3l42cj4d6ym
+  rounds.py: bafybeidure6h4i2lh67u7dtsfkaelrflmv6p7xcfxkun2sxqnxcluzauxa
+  sensors.py: bafybeihtljtv4nlxgayibcweukoskcihqmdiucj3pprxuddzhemyur7qgu
   tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
   tests/test_behaviours.py: bafybeic7xndngo4itnf6lvgwqxxnqmaoxjq74x2fuuryjlnvdolglretyq
   tests/test_dialogues.py: bafybeigpahuihthdfssrw2kfi7atxrqbxpqbnrk3c57z4be7k3inghywc4

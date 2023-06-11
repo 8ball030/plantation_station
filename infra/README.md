@@ -19,6 +19,17 @@ ansible-playbook -i inventory.ini playbooks/setup-services.yaml
 ansible-playbook -i inventory.ini playbooks/tendermint.yaml
 ```
 
+## Provision keys by creating a directory called keys with a ethereum private keys
+
+```
+mkdir keys
+cd keys && aea generate-key ethereum
+```
+
+## Enable the camera;
+
+https://pyimagesearch.com/2015/03/30/accessing-the-raspberry-pi-camera-with-opencv-and-python/
+
 ## Deployment
 ```bash
 ansible-playbook -i inventory.ini playbooks/deploy.yaml
