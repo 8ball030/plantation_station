@@ -70,6 +70,23 @@
       state: present
     become: true
 
+  - name: Ensure libcap-dev
+    apt:
+      name: libcap-dev
+      state: present
+    become: true
+
+  - name: Ensure libgl1-mesa-glx
+    apt:
+      name: libgl1-mesa-glx
+      state: present
+
+  - name: Ensure libcamera-apps
+    apt:
+      name: libcamera-apps
+      state: present
+    become: true
+
   - name: Install gpio zero
     apt:
       name: python3-gpiozero
