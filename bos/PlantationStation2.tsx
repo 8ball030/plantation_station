@@ -623,6 +623,127 @@ div {
 }
 `;
 
+// FETCH GROW REGISTRY ABI
+
+const growContract = "0x31D3202d8744B16A120117A053459DDFAE93c855";
+
+const growAbi = fetch(
+  "https://raw.githubusercontent.com/8ball030/plantation_station/main/abis/GrowRegistry.json"
+);
+if (!growAbi.ok) {
+  return "Loading";
+}
+
+const iface = new ethers.utils.Interface(growAbi.body);
+
+// HELPER FUNCTIONS
+
+const getStakedBalance = (receiver) => {
+  const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
+
+  return Ethers.provider()
+    .call({
+      to: lidoContract,
+      data: encodedData,
+    })
+    .then((rawBalance) => {
+      const receiverBalanceHex = iface.decodeFunctionResult(
+        "balanceOf",
+        rawBalance
+      );
+
+      return Big(receiverBalanceHex.toString())
+        .div(Big(10).pow(tokenDecimals))
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    });
+};
+
+// DETECT SENDER
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+    console.log("set sender", accounts[0]);
+  }
+}
+
+//if (!state.sender)  return "Please login first";
+
+// FETCH SENDER BALANCE
+
+if (state.balance === undefined && state.sender) {
+  Ethers.provider()
+    .getBalance(state.sender)
+    .then((balance) => {
+      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
+    });
+}
+
+// FETCH SENDER STETH BALANCE
+
+if (state.stakedBalance === undefined && state.sender) {
+  getStakedBalance(state.sender).then((stakedBalance) => {
+    State.update({ stakedBalance });
+  });
+}
+
+// FETCH TX COST
+
+const mintGrow = () => {
+  const account = Ethers.provider().getSigner();
+  const growRegistry = new ethers.Contract(growContract, growAbi.body, account);
+
+  const hashIPSF = "0x" + "5".repeat(64);
+  growRegistry
+    .create(state.sender, state.sender, hashIPSF)
+    .then((transactionHash) => {
+      console.log("transactionHash is " + transactionHash);
+    });
+};
+
+if (state.txCost === undefined) {
+  const gasEstimate = ethers.BigNumber.from(1875000);
+  const gasPrice = ethers.BigNumber.from(1500000000);
+
+  const gasCostInWei = gasEstimate.mul(gasPrice);
+  const gasCostInEth = ethers.utils.formatEther(gasCostInWei);
+
+  let responseGql = fetch(
+    "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `{
+          bundle(id: "1" ) {
+            ethPrice
+          }
+        }`,
+      }),
+    }
+  );
+
+  if (!responseGql) return "";
+
+  const ethPriceInUsd = responseGql.body.data.bundle.ethPrice;
+
+  const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
+
+  State.update({ txCost: `$${txCost.toFixed(2)}` });
+}
+
+// OUTPUT UI
+
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
 return (
   <Theme>
     <div className="dashboard">
@@ -825,9 +946,16 @@ return (
         </div>
         <div className="yourPlantsGroup">
           <div className="div">Your plants</div>
-          <button className="button1">
+          {!!state.sender ? (
+          <button className="button1" onClick={() => mintGrow()}>
             <div className="mintNewPlant">Mint new plant</div>
           </button>
+            ) : (
+              <Web3Connect
+                className="SubmitContainer"
+                connectLabel="Connect with Web3"
+              />
+            )}
         </div>
         <div className="frameParent9">
           <div className="tabParent">

@@ -82,7 +82,7 @@ This project is licensed under the [GPL 2.0 license](./LICENSE).
 
 ## BOS Frontend UI
 There are several drafts for the frontend UI created by the means of NEAR BOS:
-- https://near.org/near/widget/ComponentDetailsPage?src=kupermind.near/widget/PlantationStation
+- https://near.org/near/widget/ComponentDetailsPage?src=kupermind.near/widget/Plantationstation
 - https://near.org/near/widget/ComponentDetailsPage?src=kupermind.near/widget/PlantationStation2
 
 The work is ongoing, and a more careful approach should be taken to correctly transfer styles and graphics to the BOS platform.
