@@ -1,1 +1,1 @@
-{"contractVerification":true,"derivationPath":"m/44'/60'/2'/0/0","providerName":"gnosis","gasPriceInGwei":"5","baseURI":"https://ipfs-gateway/","growRegistryName":"Grow Registry","growRegistrySymbol":"GROW-REGISTRY","growRegistryAddress":"0x29086141ecdc310058fc23273F8ef7881d20C2f7"}
+{"contractVerification":true,"providerName":"gnosis","gasPriceInGwei":"5","baseURI":"https://nfts.plantation-station.xyz/","growRegistryName":"Grow Registry","growRegistrySymbol":"GROW-REGISTRY","growRegistryAddress":"0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994"}
