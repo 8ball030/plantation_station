@@ -47,6 +47,23 @@ contract GrowRegistry is GenericRegistry {
         Redeemed
     }
 
+    struct Grow {
+        // Grow hash
+        bytes32 hash;
+        // Grower address
+        address grower;
+        // Grow temperature;
+        uint16 growTemperature;
+        // Local temperature;
+        uint16 localTemperature;
+        // Grow moisture;
+        int8 moisture;
+        // Approval for redemption
+        bool approval;
+        // Grow state
+        GrowState state;
+    }
+
     event CreateGrow(address indexed growOwner, address grower, uint256 indexed growId, bytes32 indexed growHash);
     event UpdateGrowHash(address indexed grower, uint256 indexed growId, bytes32 indexed growHash);
     event Growing(address indexed multisig, uint256 indexed growId);
@@ -60,14 +77,8 @@ contract GrowRegistry is GenericRegistry {
     string public constant VERSION = "1.0.0";
     // Agent multisig address
     address public multisig;
-    // Map of grow Id => set of updated IPFS hashes
-    mapping(uint256 => bytes32) public mapGrowIdHashes;
-    // Map of grow Id => grow state
-    mapping(uint256 => GrowState) public mapGrowIdStates;
-    // Map of grow Id => grower address
-    mapping(uint256 => address) public mapGrowIdGrowers;
-    // Map of grow Id => approval for redemption
-    mapping(uint256 => bool) public mapGrowIdApprovals;
+    // Map of grow Id => Grow struct
+    mapping(uint256 => Grow) public mapGrows;
 
     /// @dev Grow registry constructor.
     /// @param _name Grow registry contract name.
@@ -123,15 +134,16 @@ contract GrowRegistry is GenericRegistry {
         growId++;
 
         // Initialize the grow and mint its token
-        mapGrowIdHashes[growId] = growHash;
+        Grow storage grow = mapGrows[growId];
+        grow.hash = growHash;
+
+        // Set the grower address
+        grow.grower = grower;
 
         // Set total supply to the grow Id number
         totalSupply = growId;
         // Safe mint is needed since contracts can create grows as well
         _safeMint(growOwner, growId);
-
-        // Set the grower address
-        mapGrowIdGrowers[growId] = grower;
 
         emit CreateGrow(growOwner, grower, growId, growHash);
         _locked = 1;
@@ -141,8 +153,9 @@ contract GrowRegistry is GenericRegistry {
     /// @param growId Grow Id.
     /// @param growHash Updated IPFS CID hash of the grow metadata.
     function updateHash(uint256 growId, bytes32 growHash) external {
+        Grow storage grow = mapGrows[growId];
         // Checking the grower address
-        address grower = mapGrowIdGrowers[growId];
+        address grower = grow.grower;
         if (grower != msg.sender) {
             revert GrowerOnly(msg.sender, grower, growId);
         }
@@ -153,7 +166,7 @@ contract GrowRegistry is GenericRegistry {
         }
 
         // Update grow hash
-        mapGrowIdHashes[growId] = growHash;
+        grow.hash = growHash;
         emit UpdateGrowHash(msg.sender, growId, growHash);
     }
 
@@ -162,7 +175,7 @@ contract GrowRegistry is GenericRegistry {
     /// @param growId Grow Id.
     function _getUnitHash(uint256 growId) internal view override returns (bytes32) {
         if (growId > 0 && growId <= totalSupply) {
-            return mapGrowIdHashes[growId];
+            return mapGrows[growId].hash;
         } else {
             revert GrowNotFound(growId);
         }
@@ -171,20 +184,21 @@ contract GrowRegistry is GenericRegistry {
     /// @dev Proposes to harvest.
     /// @param growId The id of a grow.
     function proposeToHarvest(uint256 growId) external {
+        Grow storage grow = mapGrows[growId];
         // Checking the grower address
-        address grower = mapGrowIdGrowers[growId];
+        address grower = grow.grower;
         if (grower != msg.sender) {
             revert GrowerOnly(msg.sender, grower, growId);
         }
 
         // Check for the correct grow state
-        GrowState currentGrowState = mapGrowIdStates[growId];
+        GrowState currentGrowState = grow.state;
         if (currentGrowState != GrowState.Growing) {
             revert WrongGrowState(growId);
         }
 
         // Record the proposed grow state
-        mapGrowIdStates[growId] = GrowState.HarvestProposed;
+        grow.state = GrowState.HarvestProposed;
         emit HarvestProposed(msg.sender, growId);
     }
 
@@ -198,65 +212,87 @@ contract GrowRegistry is GenericRegistry {
             revert MultisigOnly(msg.sender, multisig, growId);
         }
 
+        Grow storage grow = mapGrows[growId];
         // Get the proposed grow state
-        GrowState growState = mapGrowIdStates[growId];
+        GrowState growState = grow.state;
         if (growState != GrowState.HarvestProposed) {
             revert WrongGrowState(growId);
         }
 
         // Change the grow state
         if (isReady) {
-            mapGrowIdStates[growId] = GrowState.ReadyToHarvest;
+            grow.state = GrowState.ReadyToHarvest;
             emit ReadyToHarvest(msg.sender, growId);
         } else {
-            mapGrowIdStates[growId] = GrowState.Growing;
+            grow.state = GrowState.Growing;
             emit Growing(msg.sender, growId);
         }
+    }
+
+    /// @dev Sets grow parameters.
+    /// @notice This function is accessed by the multisig only.
+    /// @param growId The id of a grow.
+    /// @param _growTemperature Grow temperature.
+    /// @param _localTemperature Local temperature.
+    /// @param _moisture Moisture.
+    function setGrowParameters(uint256 growId, uint16 _growTemperature, uint16 _localTemperature, int8 _moisture) external {
+        // Checking the multisig address
+        if (multisig != msg.sender) {
+            revert MultisigOnly(msg.sender, multisig, growId);
+        }
+
+        Grow storage grow = mapGrows[growId];
+        grow.growTemperature = _growTemperature;
+        grow.localTemperature = _localTemperature;
+        grow.moisture = _moisture;
     }
 
     /// @dev Harvests the grow.
     /// @param growId Grow id.
     function harvest(uint256 growId) external {
+        Grow storage grow = mapGrows[growId];
         // Checking the grower address
-        address grower = mapGrowIdGrowers[growId];
+        address grower = grow.grower;
         if (grower != msg.sender) {
             revert GrowerOnly(msg.sender, grower, growId);
         }
 
         // Check for the correct grow state
-        GrowState currentGrowState = mapGrowIdStates[growId];
+        GrowState currentGrowState = grow.state;
         if (currentGrowState != GrowState.ReadyToHarvest) {
             revert WrongGrowState(growId);
         }
 
         // Record the proposed grow state
-        mapGrowIdStates[growId] = GrowState.Harvested;
+        grow.state = GrowState.Harvested;
         emit Harvested(msg.sender, growId);
     }
 
     /// @dev Approves to redeem the grow.
     /// @param growId Grow id.
     function approveRedeem(uint256 growId) external {
+        Grow storage grow = mapGrows[growId];
         // Checking the grower address
-        address grower = mapGrowIdGrowers[growId];
+        address grower = grow.grower;
         if (grower != msg.sender) {
             revert GrowerOnly(msg.sender, grower, growId);
         }
 
         // Check for the correct grow state
-        GrowState currentGrowState = mapGrowIdStates[growId];
+        GrowState currentGrowState = grow.state;
         if (currentGrowState != GrowState.Harvested) {
             revert WrongGrowState(growId);
         }
 
         // Approve the grow redemption
-        mapGrowIdApprovals[growId] = true;
+        grow.approval = true;
         emit ApproveRedeem(msg.sender, growId);
     }
 
     /// @dev Redeems the grow.
     /// @param growId Grow id.
     function redeem(uint256 growId) external {
+        Grow storage grow = mapGrows[growId];
         // Checking the grow ownership
         address growOwner = ownerOf(growId);
         if (growOwner != msg.sender) {
@@ -264,19 +300,19 @@ contract GrowRegistry is GenericRegistry {
         }
 
         // Check for the correct grow state
-        GrowState currentGrowState = mapGrowIdStates[growId];
+        GrowState currentGrowState = grow.state;
         if (currentGrowState != GrowState.Harvested) {
             revert WrongGrowState(growId);
         }
 
         // Checking the redemption approval
-        bool approved = mapGrowIdApprovals[growId];
+        bool approved = grow.approval;
         if (!approved) {
             revert RedeemNotApproved(growId);
         }
 
         // Record the proposed grow state
-        mapGrowIdStates[growId] = GrowState.Redeemed;
+        grow.state = GrowState.Redeemed;
         emit Redeemed(msg.sender, growId);
     }
 }

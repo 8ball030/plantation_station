@@ -172,9 +172,9 @@ describe("GrowRegistry", function () {
 
             // Update hashes
             await growRegistry.connect(user).updateHash(1, growHash1);
-            expect(await growRegistry.mapGrowIdHashes(1)).to.equal(growHash1);
+            expect((await growRegistry.mapGrows(1)).hash).to.equal(growHash1);
             await growRegistry.connect(user).updateHash(1, growHash2);
-            expect(await growRegistry.mapGrowIdHashes(1)).to.equal(growHash2);
+            expect((await growRegistry.mapGrows(1)).hash).to.equal(growHash2);
         });
     });
 

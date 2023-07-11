@@ -1,1 +1,1 @@
-{"contractVerification":true,"derivationPath":"m/44'/60'/2'/0/0","providerName":"polygon","gasPriceInGwei":"200","baseURI":"https://ipfs-gateway/","growRegistryName":"Grow Registry","growRegistrySymbol":"GROW-REGISTRY","growRegistryAddress":"0x31D3202d8744B16A120117A053459DDFAE93c855"}
+{"contractVerification":true,"providerName":"polygon","gasPriceInGwei":"200","baseURI":"https://nfts.plantation-station.xyz/","growRegistryName":"Grow Registry","growRegistrySymbol":"GROW-REGISTRY","growRegistryAddress":"0x29086141ecdc310058fc23273F8ef7881d20C2f7"}
