@@ -6,6 +6,6 @@ aea_version: '>=1.0.0, <2.0.0'
 license: Apache-2.0
 fingerprint: {}
 fingerprint_ignore_patterns: []
-agent: zarathustra/plantation:0.1.0:bafybeigb5sqsdxq6mzsuh6wwocfatlethtpmiaos5qtac3v2nfkhfsutma
+agent: zarathustra/plantation:0.1.0:bafybeiaimvkdlbxxto4dteryv2g6nkeed2xjoqcieu47n4xlvtrpfnabi4
 number_of_agents: 1
 deployment: {}

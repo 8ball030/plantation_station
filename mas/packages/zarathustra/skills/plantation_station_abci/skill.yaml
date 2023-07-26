@@ -2,7 +2,8 @@ name: plantation_station_abci
 author: zarathustra
 version: 0.1.0
 type: skill
-description: The scaffold skill is a scaffold for your own skill implementation.
+description: An Abci skill to collect data from sensors in order to implement the
+  control mechanism for automatically growing and harvesting crops.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
