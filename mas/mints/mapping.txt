@@ -28,4 +28,4 @@ token_id-"component_id"
 98-skill/zarathustra/plantation_station_abci/0.1.0
 99-skill/zarathustra/plantation_abci/0.1.0
 12-agent/zarathustra/plantation/0.1.0
-?-service/eightballer/plantation_station/0.1.0
+8-service/eightballer/plantation_station/0.1.0
