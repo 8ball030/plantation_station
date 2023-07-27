@@ -25,7 +25,7 @@ token_id-"component_id"
 51-"contract/valory/multicall2/0.1.0"
 # dev
 97-contract/zarathustra/grow_registry:0.1.0
-?-skill/zarathustra/plantation_abci/0.1.0
 ?-skill/zarathustra/plantation_station_abci/0.1.0
+?-skill/zarathustra/plantation_abci/0.1.0
 ?-agent/zarathustra/plantation/0.1.0
 ?-service/eightballer/plantation_station/0.1.0
