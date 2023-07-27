@@ -1,8 +1,9 @@
 {
     "dev": {
-        "skill/zarathustra/plantation_abci/0.1.0": "bafybeihjf7ep4yeaub4kjjjfqmytu3ua7lbatn5bo52a774tlo4nfnwnuu",
-        "skill/zarathustra/plantation_station_abci/0.1.0": "bafybeigldwdieb5ubs3xof2tprtdb4qt3zamh6qrp32gbfyghltnuny4ne",
-        "agent/zarathustra/plantation/0.1.0": "bafybeihxn5gyr6jwlebmazgdvtdzf6oyjhhuupy5ulabxkhb2tyxe4o4nq",
+        "skill/zarathustra/plantation_abci/0.1.0": "bafybeihbkm4vatdix43hjfgoo7pchyzzaymas5fsw2quusef7jcb5c37bm",
+        "skill/zarathustra/plantation_station_abci/0.1.0": "bafybeih7llsx4demgfewq6zjzc44ujrtzogbr2phmlkca6hgjr3un5yaue",
+        "agent/zarathustra/plantation/0.1.0": "bafybeiaimvkdlbxxto4dteryv2g6nkeed2xjoqcieu47n4xlvtrpfnabi4",
+        "service/eightballer/plantation_station/0.1.0": "bafybeidn4mczgp7bioj6mul5n7dc6aq2a3tvtk3bluqzxwhbb4wnbkbtye",
         "contract/zarathustra/grow_registry/0.1.0": "bafybeicq3xykncnmip3z43nlyujxsxjn6qhqrzaquv6bk7ucfnfg7ubimu"
     },
     "third_party": {

@@ -2,7 +2,8 @@ agent_name: plantation
 author: zarathustra
 version: 0.1.0
 license: Apache-2.0
-description: ''
+description: Aea agent capable of running on a raspberry pi to collect grow data from
+  sensors and send it to the blockchain.
 aea_version: '>=1.34.0, <2.0.0'
 fingerprint: {}
 fingerprint_ignore_patterns: []
@@ -32,8 +33,8 @@ skills:
 - valory/registration_abci:0.1.0:bafybeihqcecl57z27hwmwsslyabzia4davkb2344mryf6y5hcxcohxuvpq
 - valory/reset_pause_abci:0.1.0:bafybeifckttq6zdvfpp326afkqb6sfkh7tvwvjepdntw4sjwl4mnt57ony
 - valory/transaction_settlement_abci:0.1.0:bafybeiaismy4c4nbkteyuvqivfbvbxz2ac225po6d23myaff5k4sgrogsm
-- zarathustra/plantation_abci:0.1.0:bafybeihjf7ep4yeaub4kjjjfqmytu3ua7lbatn5bo52a774tlo4nfnwnuu
-- zarathustra/plantation_station_abci:0.1.0:bafybeigldwdieb5ubs3xof2tprtdb4qt3zamh6qrp32gbfyghltnuny4ne
+- zarathustra/plantation_abci:0.1.0:bafybeihbkm4vatdix43hjfgoo7pchyzzaymas5fsw2quusef7jcb5c37bm
+- zarathustra/plantation_station_abci:0.1.0:bafybeih7llsx4demgfewq6zjzc44ujrtzogbr2phmlkca6hgjr3un5yaue
 default_ledger: ethereum
 required_ledgers:
 - ethereum
